@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">SnackPlus</string>
+    <string name="snack_">Snack+</string>
+    <string name="customer_">Customer</string>
+    <string name="driver_">Driver</string>
+    <string name="log_in">Log in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="customer_sign_up">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="tel">Tel</string>
+    <string name="input_your_address">Input Your Address</string>
+    <string name="order">Order</string>
 </resources>
