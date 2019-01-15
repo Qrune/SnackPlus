@@ -14,4 +14,6 @@
     <string name="tel">Tel</string>
     <string name="input_your_address">Input Your Address</string>
     <string name="order">Order</string>
+    <string name="x2">x2</string>
+    <string name="item_name">Item Name</string>
 </resources>

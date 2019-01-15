@@ -18,11 +18,11 @@
     <android.support.v7.widget.RecyclerView
             android:id="@+id/customer_checkout_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="550dp"
             android:layout_below="@+id/customer_address_select"
             android:layout_alignParentStart="true"
             android:layout_marginTop="0dp"
-            tools:listitem="@layout/recycler_view_item"
+            tools:listitem="@layout/customer_checkout_recycler_item"
     />
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="50dp"

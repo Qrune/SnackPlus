@@ -8,6 +8,6 @@
             android:layout_height="500dp"
             android:layout_alignParentStart="true"
             android:layout_marginTop="40dp"
-            tools:listitem="@layout/recycler_view_item"
+            tools:listitem="@layout/customer_checkout_recycler_item"
     />
 </RelativeLayout>
