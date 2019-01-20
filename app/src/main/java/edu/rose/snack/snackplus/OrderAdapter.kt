@@ -2,6 +2,7 @@ package edu.rose.snack.snackplus
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.google.firebase.firestore.DocumentChange
@@ -11,7 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import edu.rose.snack.snackplus.model.Order
 import edu.rose.snack.snackplus.utils.OrdersHardCode
 
-class OrderAdapter(var context: Context): RecyclerView.Adapter<OrderViewHolder>(){
+class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnOrderSelectedListener?): RecyclerView.Adapter<OrderViewHolder>(){
     private val orders = ArrayList<Order>()
     private val orderRef = FirebaseFirestore
         .getInstance()
@@ -74,5 +75,11 @@ class OrderAdapter(var context: Context): RecyclerView.Adapter<OrderViewHolder>(
     }
     fun remove(position: Int){
         orderRef.document(orders[position].id).delete()
+    }
+
+    fun selectOrderAt(adapterPosition: Int) {
+        var Id = orders[adapterPosition].id
+        Log.d("Order",Id)
+        listener?.OnOrderSelected(Id)
     }
 }
