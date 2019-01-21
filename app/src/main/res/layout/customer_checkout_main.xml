@@ -12,11 +12,11 @@
                   android:padding="5dp"
                   android:background="@color/colorWhite"
                   android:hint="@string/input_your_address"
-        />
+                  android:id="@+id/txt_checkout_address"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/customer_checkout_recycler_view"
+            android:id="@+id/recycler_view_checkout_item_list"
             android:layout_width="match_parent"
             android:layout_height="550dp"
             android:layout_below="@+id/customer_address_select"
@@ -32,7 +32,7 @@
                     >
         <Button android:layout_width="100dp" android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:id="@+id/btn_customer_checkout"
+                android:id="@+id/btn_checkout_order"
                 android:background="@color/colorBlueBright"
                 android:layout_alignParentTop="true"
                 android:text="@string/order"
@@ -42,8 +42,8 @@
                   android:gravity="center"
                   android:layout_marginRight="8dp"
                   android:textStyle="bold"
-                  android:layout_toLeftOf="@+id/btn_customer_checkout"
-                  android:id="@+id/text_customer_checkout_total"/>
+                  android:layout_toLeftOf="@+id/btn_checkout_order"
+                  android:id="@+id/txt_checkout_total"/>
 
     </RelativeLayout>
 

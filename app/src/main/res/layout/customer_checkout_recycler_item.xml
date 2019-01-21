@@ -38,7 +38,7 @@
                   android:layout_marginLeft="15dp"
                   android:textSize="20sp"
                   android:gravity="center"
-                  android:text="@string/x2"/>
+                  android:text="@string/x2" android:id="@+id/customer_chekcout_recycler_view_item_quantity"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_alignParentRight="true"
                   android:id="@+id/customer_checkout_recycler_view_item_price"

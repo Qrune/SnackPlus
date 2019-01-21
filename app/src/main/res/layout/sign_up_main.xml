@@ -3,7 +3,7 @@
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent">
     <TextView
-            android:id="@+id/customer_sign_up"
+            android:id="@+id/txt_signup_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -14,47 +14,47 @@
             android:textSize="40sp"
     />
     <EditText
-            android:id="@+id/sign_up_name"
+            android:id="@+id/txt_signup_name"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/customer_sign_up"
+            android:layout_below="@+id/txt_signup_heading"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:hint="@string/name"
 
     />
     <EditText
-            android:id="@+id/sign_up_address"
+            android:id="@+id/txt_signup_address"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sign_up_name"
+            android:layout_below="@+id/txt_signup_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:hint="@string/address"
     />
     <EditText
-            android:id="@+id/sign_up_tel"
+            android:id="@+id/txt_signup_tel"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sign_up_address"
+            android:layout_below="@+id/txt_signup_address"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:hint="@string/tel"
     />
     <EditText
-            android:id="@+id/sign_up_email"
+            android:id="@+id/txt_signup_email"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sign_up_tel"
+            android:layout_below="@+id/txt_signup_tel"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:hint="@string/email"
     />
     <EditText
-            android:id="@+id/sign_up_password"
+            android:id="@+id/txt_signup_password"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sign_up_email"
+            android:layout_below="@+id/txt_signup_email"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:inputType="textPassword"
@@ -63,8 +63,8 @@
     <Button android:layout_width="275dp"
             android:layout_height="44dp"
             android:background="@drawable/btn_rounded"
-            android:id="@+id/btn_login_signup_signup"
-            android:layout_below="@+id/sign_up_password"
+            android:id="@+id/btn_signup_signup"
+            android:layout_below="@+id/txt_signup_password"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:text="@string/sign_up"

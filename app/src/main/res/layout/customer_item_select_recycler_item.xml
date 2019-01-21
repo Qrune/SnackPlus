@@ -4,7 +4,6 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/customer_checkout_recycler_view_cardView"
         android:layout_width="match_parent"
         app:cardCornerRadius="4dp"
         app:cardPreventCornerOverlap="false"
@@ -13,15 +12,15 @@
         android:layout_height="90dp">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="20dp">
+                    android:layout_marginHorizontal="20dp" android:id="@+id/customer_checkout_recycler_view_cardView">
         <ImageView
-                android:id="@+id/customer_item_select_recycler_view_item_image"
+                android:id="@+id/img_item_select_item_photo"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
                 tools:src="@tools:sample/avatars" android:contentDescription="TODO"/>
         <TextView
-                android:id="@+id/customer_item_select_recycler_view_item_name"
+                android:id="@+id/txt_item_select_item_name"
                 android:layout_toRightOf="@+id/customer_item_select_recycler_view_item_image"
                 android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
@@ -30,12 +29,13 @@
                 android:textSize="24sp"
                 android:padding="5dp"
                 android:textStyle="bold"
-                tools:text="@string/item_name"/>
+                tools:text="@string/item_name" android:layout_alignParentTop="true" android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/img_item_select_item_photo" android:layout_marginStart="18dp"/>
         <TextView
-                android:id="@+id/customer_checkout_recycler_view_item_price"
+                android:id="@+id/txt_item_select_price"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/customer_item_select_recycler_view_item_image"
-                android:layout_below="@+id/customer_item_select_recycler_view_item_name"
+                android:layout_below="@+id/txt_item_select_item_name"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
                 android:textSize="20sp"
@@ -51,17 +51,17 @@
             <Button android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/colorBlueBright"/>
+                    android:background="@color/colorBlueBright" android:id="@+id/btn_item_select_quantity_less"/>
             <TextView android:layout_width="50dp" android:layout_height="40dp"
                       android:layout_marginHorizontal="5dp"
                       android:text="23"
                       android:textStyle="bold"
                       android:gravity="center"
-                      android:textSize="20sp"/>
+                      android:textSize="20sp" android:id="@+id/txt_item_select_quantity"/>
             <Button android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/colorBlueBright"/>
+                    android:background="@color/colorBlueBright" android:id="@+id/btn_item_select_quantity_more"/>
         </LinearLayout>
     </RelativeLayout>
 
