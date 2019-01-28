@@ -1,7 +1,5 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.driver.order.summary
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
@@ -10,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rose.snack.snackplus.Constants
+import edu.rose.snack.snackplus.R
 
 
 // TODO: Rename parameter arguments, choose names that match

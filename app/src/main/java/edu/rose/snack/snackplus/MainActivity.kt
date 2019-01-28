@@ -3,13 +3,39 @@ package edu.rose.snack.snackplus
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.util.Log
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
+import edu.rose.snack.snackplus.driver.landing.OrderAdapter
+import edu.rose.snack.snackplus.driver.order.summary.DriverOrderSummary
+import edu.rose.snack.snackplus.login.LoginFragment
 
 class MainActivity :
     AppCompatActivity(),
-        DriverLandingFragment.OnOrderSelectedListener
-{
+    LoginFragment.OnLoginButtonPressedListener,
+    DriverLandingFragment.OnOrderSelectedListener {
+
+
+    val auth = FirebaseAuth.getInstance()
+    lateinit var authListener: FirebaseAuth.AuthStateListener
+    private val RC_SIGN_IN = 1
+
+    private fun initiallizeListeners() {
+        Log.d("LOGIN","initialLogin")
+        authListener = FirebaseAuth.AuthStateListener { auth ->
+            val user = auth.currentUser
+            Log.d("LOGIN","statusChanged")
+            if (user != null) {
+                Log.d("USER", "UID: ${user.uid}")
+                switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
+            } else {
+                Log.d("USER", "login failed")
+                switchFragment(LoginFragment())
+            }
+        }
+    }
+
     override fun OnOrderSelected(Id: String) {
         val fragment = DriverOrderSummary.newInstance(Id)
         val ft = supportFragmentManager.beginTransaction()
@@ -18,21 +44,63 @@ class MainActivity :
         ft.commit()
 //        switchFragment(fragment)
     }
+    override fun onLoginButtonPressed(email: String, password: String) {
+        Log.d("BTN","buttonpressed")
+        launchLoginUI()
+//        auth.signInWithEmailAndPassword(email,password)
+//            .addOnCompleteListener{
+//                if (!it.isSuccessful){
+//
+//                   Log.d("USER","LoginUnsuccseeful")
+//                }else{
+//                    var user = auth.currentUser
+//                    Log.d("USER",user?.uid)
+//                    switchFragment(DriverLandingFragment.newInstance(uid = user!!.uid))
+//                    Log.d("USER","Loginsuccseeful")
+//                }
+//            }
+    }
+    private fun launchLoginUI() {
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.PhoneBuilder().build()
+        )
 
+        val loginIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+
+        startActivityForResult(loginIntent, RC_SIGN_IN)
+    }
     lateinit var adapter: OrderAdapter
 
-    private fun switchFragment(switchTo: Fragment){
+    private fun switchFragment(switchTo: Fragment) {
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragement_container,switchTo)
-        for (i in 0 until supportFragmentManager.backStackEntryCount){
+        ft.replace(R.id.fragement_container, switchTo)
+        for (i in 0 until supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStackImmediate()
         }
         ft.commit()
     }
+
+    override fun onStart() {
+        super.onStart()
+        auth.addAuthStateListener { authListener }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (authListener != null) {
+            auth.removeAuthStateListener { authListener }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        switchFragment(DriverLandingFragment())
+        switchFragment(LoginFragment())
+        initiallizeListeners()
 
     }
 
