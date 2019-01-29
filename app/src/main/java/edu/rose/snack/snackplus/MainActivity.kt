@@ -11,6 +11,7 @@ import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.OrderAdapter
 import edu.rose.snack.snackplus.driver.order.summary.DriverOrderSummary
 import edu.rose.snack.snackplus.login.LoginFragment
+import edu.rose.snack.snackplus.model.Order
 
 class MainActivity :
     AppCompatActivity(),
@@ -21,6 +22,7 @@ class MainActivity :
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
     private val RC_SIGN_IN = 1
+
     private val orderRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.ORDER_COLLECTION)
@@ -32,10 +34,24 @@ class MainActivity :
             Log.d("LOGIN","statusChanged")
             if (user != null) {
                 Log.d("USER", "UID: ${user.uid}")
-                switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
+                loginRoleDistr(user.uid)
+//                switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
             } else {
                 Log.d("USER", "login failed")
                 switchFragment(LoginFragment())
+            }
+        }
+    }
+    fun loginRoleDistr(uid: String){
+        orderRef.whereEqualTo("driverId", uid).
+            get().addOnSuccessListener { snapshot ->
+            if (snapshot.isEmpty){
+                switchFragment(DriverLandingFragment.newInstance(uid = uid))
+            }else{
+                snapshot.documents[0].get("")
+                var orders = snapshot.toObjects(Order::class.java)
+                Log.d("DISTR","id"+orders.get(0).id)
+                switchFragment(DriverOrderSummary.newInstance(Id = orders.get(0).id))
             }
         }
     }
@@ -62,7 +78,8 @@ class MainActivity :
                 }else{
                     var user = auth.currentUser
                     Log.d("USER",user?.uid)
-                    switchFragment(DriverLandingFragment.newInstance(uid = user!!.uid))
+                    loginRoleDistr(user!!.uid)
+//                    switchFragment(DriverLandingFragment.newInstance(uid = user!!.uid))
                     Log.d("USER","Loginsuccseeful")
                 }
             }

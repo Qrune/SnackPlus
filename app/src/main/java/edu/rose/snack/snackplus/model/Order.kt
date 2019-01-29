@@ -11,7 +11,7 @@ data class Order(
     var customerAddress: String = "",
     var customerPhone: String = "",
     var orderTotal: Int = 0,
-    var driverUid: String = "",
+    var driverId: String = "",
     var items: MutableList<Item> = mutableListOf(),
     var total: Float=0F
 ) {
