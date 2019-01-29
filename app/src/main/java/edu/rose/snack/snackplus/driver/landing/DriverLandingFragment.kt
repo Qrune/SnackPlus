@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import edu.rose.snack.snackplus.R
+import edu.rose.snack.snackplus.utils.OrdersHardCode
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,6 +53,7 @@ class DriverLandingFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
         adapter.addSnapshotListener()
+//        adapter.add(OrdersHardCode.getInstance())
         view = constraintView
         // Inflate the layout for this fragment
         return constraintView
@@ -85,7 +87,7 @@ class DriverLandingFragment : Fragment() {
      */
     interface OnOrderSelectedListener{
         // TODO: Update argument type and name
-        fun OnOrderSelected(Id: String)
+        fun OnOrderSelected(Id: String, uid: String)
     }
 
     companion object {

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.OrderAdapter
 import edu.rose.snack.snackplus.driver.order.summary.DriverOrderSummary
@@ -20,6 +21,9 @@ class MainActivity :
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
     private val RC_SIGN_IN = 1
+    private val orderRef = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.ORDER_COLLECTION)
 
     private fun initiallizeListeners() {
         Log.d("LOGIN","initialLogin")
@@ -36,7 +40,10 @@ class MainActivity :
         }
     }
 
-    override fun OnOrderSelected(Id: String) {
+    override fun OnOrderSelected(Id: String, uid: String) {
+        val users = HashMap<String, String>()
+        users.put("driverId",uid)
+        orderRef.document(Id).update(users as Map<String, Any>)
         val fragment = DriverOrderSummary.newInstance(Id)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragement_container, fragment)
@@ -46,19 +53,19 @@ class MainActivity :
     }
     override fun onLoginButtonPressed(email: String, password: String) {
         Log.d("BTN","buttonpressed")
-        launchLoginUI()
-//        auth.signInWithEmailAndPassword(email,password)
-//            .addOnCompleteListener{
-//                if (!it.isSuccessful){
-//
-//                   Log.d("USER","LoginUnsuccseeful")
-//                }else{
-//                    var user = auth.currentUser
-//                    Log.d("USER",user?.uid)
-//                    switchFragment(DriverLandingFragment.newInstance(uid = user!!.uid))
-//                    Log.d("USER","Loginsuccseeful")
-//                }
-//            }
+//        launchLoginUI()
+        auth.signInWithEmailAndPassword(email,password)
+            .addOnCompleteListener{
+                if (!it.isSuccessful){
+
+                   Log.d("USER","LoginUnsuccseeful")
+                }else{
+                    var user = auth.currentUser
+                    Log.d("USER",user?.uid)
+                    switchFragment(DriverLandingFragment.newInstance(uid = user!!.uid))
+                    Log.d("USER","Loginsuccseeful")
+                }
+            }
     }
     private fun launchLoginUI() {
         val providers = arrayListOf(
