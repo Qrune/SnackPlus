@@ -1,4 +1,4 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.customer.checkout
 
 
 //import edu.rose.snack.snackplus.dummy.DummyContent.DummyItem
@@ -7,7 +7,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import edu.rose.snack.snackplus.ItemSelectListFragment.OnItemSelectItemSelected
+import com.google.firebase.firestore.FirebaseFirestore
+import edu.rose.snack.snackplus.customer.item_select.ItemSelectListFragment.OnItemSelectItemSelected
+import edu.rose.snack.snackplus.R
+import edu.rose.snack.snackplus.models.Item
+import edu.rose.snack.snackplus.models.Order
 import kotlinx.android.synthetic.main.customer_checkout_recycler_item.view.*
 
 /**
@@ -17,14 +21,27 @@ import kotlinx.android.synthetic.main.customer_checkout_recycler_item.view.*
  */
 class CheckoutListAdapter(
     var context: Context,
-    private val items: List<Item>
+    val selectedItems:ArrayList<String>
 
 ) : RecyclerView.Adapter<CheckoutListAdapter.CheckoutListViewHolder>() {
 
 //    private val mOnClickListener: View.OnClickListener
 
-
+private val items= mutableListOf<Item>()
+    private val itemsRef=FirebaseFirestore.getInstance().collection("items")
+    private val OrdersRef=FirebaseFirestore.getInstance().collection("orders")
     init {
+        itemsRef.get().addOnSuccessListener {
+
+            val map=selectedItems.groupingBy { it }.eachCount()
+            for ((itemId,count) in map){
+
+                val item=it.documents.find { itemId==it.id }!!.toObject(Item::class.java)!!
+                item.quantity=count
+                items.add(item)
+            }
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckoutListViewHolder {
@@ -43,6 +60,13 @@ class CheckoutListAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+    fun placeOrder() {
+        var total=items.fold(0F) {
+                acc,item ->
+            acc+item.price*item.quantity
+        }
+        OrdersRef.add(Order(items,total))
+    }
 
     inner class CheckoutListViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
 //        val itemPhoto:ImageView=mView.customer_checkout_recycler_view_item_image

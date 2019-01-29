@@ -1,28 +1,42 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.customer.item_select
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
+import edu.rose.snack.snackplus.R
+import edu.rose.snack.snackplus.customer.checkout.CheckoutActivity
+import edu.rose.snack.snackplus.models.Item
 
-const val SELECTED_ITEMS="edu.rose-hulman.zhengj2.SELECTED_ITEMS"
-const val TOTAL="edu.rose-hulman.zhengj2.TOTAL"
+const val SELECTED_ITEMS = "edu.rose-hulman.zhengj2.SELECTED_ITEMS"
+const val TOTAL = "edu.rose-hulman.zhengj2.TOTAL"
 
-class ItemSelectActivity : AppCompatActivity(), ItemSelectListFragment.OnItemSelectItemSelected {
+class ItemSelectActivity : AppCompatActivity(),
+    ItemSelectListFragment.OnItemSelectItemSelected {
 
     private lateinit var textViewTotal: TextView
     private lateinit var buttonCheckout: Button
     private var total = 0F
-    private var selectedItems= mutableListOf<Item>()
+    private var selectedItems = arrayListOf<String>()
     override fun onItemSelectItemSelected(item: Item?, isRemove: Boolean) {
         total += item!!.price * when (isRemove) {
             true -> -1
             false -> 1
         }
-        selectedItems.add(item)
-        textViewTotal.text = "Total: $"+total.toString()
+        total = Math.round(total * 100.0F) / 100.0F
+        when (isRemove) {
+            true -> {
+                if (item.id in selectedItems) {
+                    selectedItems.remove(item.id)
+                }
+            }
+            false -> {
+                selectedItems.add(item.id)
+            }
+
+        }
+        textViewTotal.text = "Total: $" + total.toString()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,12 +49,8 @@ class ItemSelectActivity : AppCompatActivity(), ItemSelectListFragment.OnItemSel
 
         buttonCheckout.setOnClickListener {
             var intent = Intent(this, CheckoutActivity::class.java)
-            var itemNames= arrayListOf<String>()
-            for (item in selectedItems){
-                itemNames.add(item.name)
-            }
-            intent.putStringArrayListExtra(SELECTED_ITEMS,itemNames)
-            intent.putExtra(TOTAL,total)
+            intent.putStringArrayListExtra(SELECTED_ITEMS, selectedItems)
+            intent.putExtra(TOTAL, total)
             startActivity(intent)
         }
 
