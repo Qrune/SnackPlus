@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ToggleButton
 import com.google.firebase.auth.FirebaseAuth
 import edu.rose.snack.snackplus.R
 import kotlinx.android.synthetic.main.log_in_main.view.*
@@ -29,6 +30,7 @@ class LoginFragment : Fragment() {
 
     private var listener: OnLoginButtonPressedListener? = null
     val auth = FirebaseAuth.getInstance()
+    private var isDriver = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,12 +42,17 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.log_in_main, container, false)
-        var inputEmail = view.findViewById<EditText>(R.id.login_email)
-        var inputPassword = view.findViewById<EditText>(R.id.login_password)
+        val toggle: ToggleButton = view.findViewById(R.id.is_driver)
+        toggle.setOnCheckedChangeListener { _, isChecked ->
+            isDriver = isChecked
+        }
+//        var inputEmail = view.findViewById<EditText>(R.id.login_email)
+//        var inputPassword = view.findViewById<EditText>(R.id.login_password)
         view.btn_login_login.setOnClickListener{
-            var email = inputEmail.text.toString()
-            val password = inputPassword.text.toString()
-            listener?.onLoginButtonPressed(email, password)
+            listener?.onUIBtnPressed(isDriver)
+        }
+        view.btn_login_rosefire.setOnClickListener{
+            listener?.onRoseBtnPressed(isDriver)
         }
         return view
     }
@@ -67,8 +74,8 @@ class LoginFragment : Fragment() {
 
 
     interface OnLoginButtonPressedListener {
-
-        fun onLoginButtonPressed(email: String, password: String)
+        fun onRoseBtnPressed(isDriver: Boolean)
+        fun onUIBtnPressed(isDriver: Boolean)
     }
 
 
