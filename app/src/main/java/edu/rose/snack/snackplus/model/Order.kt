@@ -13,7 +13,8 @@ data class Order(
     var orderTotal: Int = 0,
     var driverId: String = "",
     var items: MutableList<Item> = mutableListOf(),
-    var total: Float=0F
+    var total: Float=0F,
+    var status: String="IN PROGRESS"
 ) {
     @get:Exclude
     var id = ""

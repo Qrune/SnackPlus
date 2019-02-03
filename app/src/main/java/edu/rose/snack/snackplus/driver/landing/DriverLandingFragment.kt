@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
 import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.utils.OrdersHardCode
 
@@ -31,14 +32,14 @@ class DriverLandingFragment : Fragment() {
     private var listener: OnOrderSelectedListener? = null
     private lateinit var adapter: OrderAdapter
     private lateinit var view: ConstraintLayout
-    private var uid: String? = null
+    private var uid: String = FirebaseAuth.getInstance().currentUser!!.uid
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            uid = it.getString(ARG_UID)
+//            uid = it.getString(ARG_UID)
         }
     }
 
@@ -101,10 +102,10 @@ class DriverLandingFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(uid: String) =
+        fun newInstance() =
             DriverLandingFragment().apply {
                 arguments = Bundle().apply {
-                   putString(ARG_UID, uid)
+//                   putString(ARG_UID, uid)
                 }
             }
     }

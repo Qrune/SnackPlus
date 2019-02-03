@@ -1,19 +1,14 @@
-package edu.rose.snack.snackplus.driver.order.summary
+package edu.rose.snack.snackplus.driver.landing
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.QuerySnapshot
 import edu.rose.snack.snackplus.Constants
 import edu.rose.snack.snackplus.Models.Item
 import edu.rose.snack.snackplus.R
-import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
-import edu.rose.snack.snackplus.driver.landing.OrderViewHolder
 import edu.rose.snack.snackplus.model.Order
 
 

@@ -1,4 +1,4 @@
-package edu.rose.snack.snackplus.driver.order.summary
+package edu.rose.snack.snackplus.driver.order.home
 
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -9,11 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
 import edu.rose.snack.snackplus.R
-import edu.rose.snack.snackplus.driver.landing.OrderAdapter
+import edu.rose.snack.snackplus.driver.landing.DriverOrderSummaryAdapter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,7 +52,7 @@ class DriverOrderSummary : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var constraintView = inflater.inflate(R.layout.driver_order_summary, container, false) as ConstraintLayout
-        var recyclerView: RecyclerView = constraintView.findViewById(R.id.driver_order_summary_recyclerView)
+//        var recyclerView: RecyclerView = constraintView.findViewById(R.id.driver_order_summary_recyclerView)
 
         var customerName = constraintView.findViewById<TextView>(R.id.textView_driver_order_name)
         var customerNumber = constraintView.findViewById<TextView>(R.id.textView_driver_order_number)
@@ -61,12 +62,18 @@ class DriverOrderSummary : Fragment() {
             customerNumber.text = snapshot["customerPhone"] as String
             customerAdddress.text = snapshot["customerAddress"] as String
         }
+        var btn_delivered = constraintView.findViewById<Button>(R.id.btn_order_delivered)
+        btn_delivered.setOnClickListener {
+            val users = HashMap<String, String>()
+            users.put("status","DELIVERED")
+            orderRef.document(orderId).update(users as Map<String, Any>)
+        }
 
-        adapter = DriverOrderSummaryAdapter(context!!, orderId)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
-        Log.d("DRIVER","Adapter: " +adapter.getItemCount().toString())
+//        adapter = DriverOrderSummaryAdapter(context!!, orderId)
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+//        recyclerView.setHasFixedSize(true)
+//        recyclerView.adapter = adapter
+//        Log.d("DRIVER","Adapter: " +adapter.getItemCount().toString())
 
         return constraintView
     }

@@ -4,7 +4,7 @@
                 android:layout_height="match_parent"
                 xmlns:tools="http://schemas.android.com/tools"
                 tools:context=".MainActivity"
-                android:background="@color/colorBlueDark">
+                android:background="@color/background">
     <android.support.v7.widget.RecyclerView
             android:id="@+id/customer_checkout_recycler_view"
             android:layout_width="match_parent"
