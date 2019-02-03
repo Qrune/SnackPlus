@@ -4,7 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/customer_checkout_recycler_view_cardView"
+        android:id="@+id/cardView_driver_order_summary_item"
         android:layout_width="match_parent"
         app:cardCornerRadius="4dp"
         app:cardPreventCornerOverlap="false"
@@ -13,16 +13,17 @@
         android:layout_height="wrap_content">
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp">
+                    android:layout_marginHorizontal="10dp">
         <ImageView
-                android:id="@+id/customer_checkout_recycler_view_item_image"
+                android:id="@+id/imageView_driver_order_summary_item_image"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
-                tools:src="@tools:sample/avatars" android:contentDescription="TODO"/>
+                tools:src="@tools:sample/avatars"
+                android:contentDescription="TODO"/>
         <TextView
-                android:id="@+id/customer_checkout_recycler_view_item_name"
-                android:layout_toRightOf="@+id/customer_checkout_recycler_view_item_image"
+                android:id="@+id/textView_driver_order_summary_item_name"
+                android:layout_toRightOf="@+id/imageView_driver_order_summary_item_image"
                 android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,8 +33,9 @@
                 android:textStyle="bold"
                 tools:text="@string/item_name"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_toRightOf="@id/customer_checkout_recycler_view_item_image"
-                  android:layout_below="@+id/customer_checkout_recycler_view_item_name"
+                  android:id="@+id/textView_driver_order_summary_item_count"
+                  android:layout_toRightOf="@id/imageView_driver_order_summary_item_image"
+                  android:layout_below="@+id/textView_driver_order_summary_item_name"
                   android:layout_marginTop="5dp"
                   android:layout_marginLeft="15dp"
                   android:textSize="20sp"
@@ -41,12 +43,11 @@
                   android:text="@string/x2"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_alignParentRight="true"
-                  android:id="@+id/customer_checkout_recycler_view_item_price"
+                  android:id="@+id/textView_driver_order_summary_item_price"
                   android:textSize="20sp"
                   android:layout_centerInParent="true"
                   android:layout_centerVertical="true"
                   android:textStyle="bold"
                   android:text="$20"/>
     </RelativeLayout>
-
 </android.support.v7.widget.CardView>

@@ -1,15 +1,20 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.driver.order.home
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rose.snack.snackplus.Constants
+import edu.rose.snack.snackplus.R
+import edu.rose.snack.snackplus.driver.landing.DriverOrderSummaryAdapter
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,8 +32,8 @@ private const val ARG_ORDER_ID = "orderId"
  */
 class DriverOrderSummary : Fragment() {
     // TODO: Rename and change types of parameters
-    private var orderId: String? = null
-//    private var listener: OnFragmentInteractionListener? = null
+    private lateinit var orderId: String
+    private lateinit var adapter: DriverOrderSummaryAdapter
     private val orderRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.ORDER_COLLECTION)
@@ -38,6 +43,7 @@ class DriverOrderSummary : Fragment() {
         arguments?.let {
             orderId = it.getString(ARG_ORDER_ID)
         }
+
     }
 
     override fun onCreateView(
@@ -46,6 +52,8 @@ class DriverOrderSummary : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var constraintView = inflater.inflate(R.layout.driver_order_summary, container, false) as ConstraintLayout
+//        var recyclerView: RecyclerView = constraintView.findViewById(R.id.driver_order_summary_recyclerView)
+
         var customerName = constraintView.findViewById<TextView>(R.id.textView_driver_order_name)
         var customerNumber = constraintView.findViewById<TextView>(R.id.textView_driver_order_number)
         var customerAdddress = constraintView.findViewById<TextView>(R.id.textView_driver_order_address)
@@ -54,6 +62,19 @@ class DriverOrderSummary : Fragment() {
             customerNumber.text = snapshot["customerPhone"] as String
             customerAdddress.text = snapshot["customerAddress"] as String
         }
+        var btn_delivered = constraintView.findViewById<Button>(R.id.btn_order_delivered)
+        btn_delivered.setOnClickListener {
+            val users = HashMap<String, String>()
+            users.put("status","DELIVERED")
+            orderRef.document(orderId).update(users as Map<String, Any>)
+        }
+
+//        adapter = DriverOrderSummaryAdapter(context!!, orderId)
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+//        recyclerView.setHasFixedSize(true)
+//        recyclerView.adapter = adapter
+//        Log.d("DRIVER","Adapter: " +adapter.getItemCount().toString())
+
         return constraintView
     }
 //

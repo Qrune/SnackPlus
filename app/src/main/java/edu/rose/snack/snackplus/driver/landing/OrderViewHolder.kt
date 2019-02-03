@@ -1,10 +1,11 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.driver.landing
 
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.model.Order
 
 class OrderViewHolder: RecyclerView.ViewHolder {
@@ -26,7 +27,7 @@ class OrderViewHolder: RecyclerView.ViewHolder {
     fun bind(order: Order){
        customerNameTextView.text = order.customerName
         customerAddressTextView.text = String.format("Address: %s", order.customerAddress)
-        customerTotalTextView.text = String.format("$ %d",order.orderTotal)
+        customerTotalTextView.text = String.format("$ %.2f",order.orderTotal)
 
     }
 }

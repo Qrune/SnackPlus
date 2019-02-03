@@ -2,6 +2,8 @@
 <resources>
     <color name="colorBlueDark">#1B3E73</color>
     <color name="colorBlue">#03A9F4</color>
+    <color name="background">#252839</color>
+    <color name="icon_color">#F2B632</color>
     <color name="colorBlueBright">#6AC9F5</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorButton">#15E8E8</color>

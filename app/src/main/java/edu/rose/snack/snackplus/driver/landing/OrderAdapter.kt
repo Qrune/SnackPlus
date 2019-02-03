@@ -1,4 +1,4 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.driver.landing
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -9,15 +9,19 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
+import edu.rose.snack.snackplus.Constants
+import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.model.Order
 import edu.rose.snack.snackplus.utils.OrdersHardCode
 
-class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnOrderSelectedListener?): RecyclerView.Adapter<OrderViewHolder>(){
+class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnOrderSelectedListener?, var uid: String): RecyclerView.Adapter<OrderViewHolder>(){
     private val orders = ArrayList<Order>()
     private val orderRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.ORDER_COLLECTION)
     private lateinit var listenerRegistration: ListenerRegistration
+
+
     fun addSnapshotListener(){
         listenerRegistration = orderRef
             .orderBy(Order.LAST_TOUCHED_KEY)
@@ -80,6 +84,6 @@ class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnO
     fun selectOrderAt(adapterPosition: Int) {
         var Id = orders[adapterPosition].id
         Log.d("Order",Id)
-        listener?.OnOrderSelected(Id)
+        listener?.OnOrderSelected(Id, uid)
     }
 }

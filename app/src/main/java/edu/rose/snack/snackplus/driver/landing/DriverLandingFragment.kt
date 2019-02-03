@@ -1,4 +1,4 @@
-package edu.rose.snack.snackplus
+package edu.rose.snack.snackplus.driver.landing
 
 import android.content.Context
 import android.os.Bundle
@@ -9,12 +9,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.auth.FirebaseAuth
+import edu.rose.snack.snackplus.R
+import edu.rose.snack.snackplus.utils.OrdersHardCode
 
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_UID = "arguid"
 
 /**
  * A simple [Fragment] subclass.
@@ -30,9 +32,14 @@ class DriverLandingFragment : Fragment() {
     private var listener: OnOrderSelectedListener? = null
     private lateinit var adapter: OrderAdapter
     private lateinit var view: ConstraintLayout
+    private var uid: String = FirebaseAuth.getInstance().currentUser!!.uid
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+//            uid = it.getString(ARG_UID)
         }
     }
 
@@ -42,11 +49,12 @@ class DriverLandingFragment : Fragment() {
     ): View? {
         var constraintView = inflater.inflate(R.layout.driver_landing, container, false) as ConstraintLayout
         var recyclerView:RecyclerView = constraintView.findViewById(R.id.customer_checkout_recycler_view)
-        adapter = OrderAdapter(context!!, listener)
+        adapter = OrderAdapter(context!!, listener, uid!!)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
         adapter.addSnapshotListener()
+//        adapter.add(OrdersHardCode.getInstance())
         view = constraintView
         // Inflate the layout for this fragment
         return constraintView
@@ -80,7 +88,7 @@ class DriverLandingFragment : Fragment() {
      */
     interface OnOrderSelectedListener{
         // TODO: Update argument type and name
-        fun OnOrderSelected(Id: String)
+        fun OnOrderSelected(Id: String, uid: String)
     }
 
     companion object {
@@ -94,11 +102,10 @@ class DriverLandingFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             DriverLandingFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+//                   putString(ARG_UID, uid)
                 }
             }
     }

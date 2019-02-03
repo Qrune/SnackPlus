@@ -4,12 +4,16 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
+import edu.rose.snack.snackplus.Models.Item
 
 data class Order(
     var customerName: String = "",
     var customerAddress: String = "",
     var customerPhone: String = "",
-    var orderTotal: Int = 0
+    var orderTotal: Float = 0F,
+    var driverId: String = "",
+    var items: MutableList<Item> = mutableListOf(),
+    var status: String="IN PROGRESS"
 ) {
     @get:Exclude
     var id = ""
