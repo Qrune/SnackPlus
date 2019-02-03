@@ -1,4 +1,4 @@
-package edu.rose.snack.snackplus.customer.login
+package edu.rose.snack.snackplus.login
 
 import android.app.Activity
 import android.content.Intent
@@ -12,16 +12,15 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
-import edu.rose.snack.snackplus.MainActivity
+import edu.rose.snack.snackplus.DriverActivity
+import edu.rose.snack.snackplus.Models.Item
 import edu.rose.snack.snackplus.R
-import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
-import edu.rose.snack.snackplus.login.LoginFragment
+import edu.rose.snack.snackplus.customer.CustomerActivity
 import edu.rose.snack.snackplus.model.User
 import edu.rosehulman.rosefire.Rosefire
-import kotlinx.android.synthetic.main.log_in_main.*
 
 class LoginActivity : AppCompatActivity(),
-    LoginFragment.OnLoginButtonPressedListener{
+    LoginFragment.OnLoginButtonPressedListener {
     var isDriver: Boolean = false
     private val RC_SIGN_IN = 1
     private val RC_ROSEFIRE_LOGIN = 2
@@ -30,7 +29,41 @@ class LoginActivity : AppCompatActivity(),
     private val userRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.USER_COLLECTION)
+    //    val auth = FirebaseAuth.getInstance()
+    lateinit var authListener: FirebaseAuth.AuthStateListener
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+        initiallizeListeners()
+//        generateDummyItems()
+        switchFragment(LoginFragment())
+    }
+
+    private fun initiallizeListeners() {
+        Log.d("LOGIN", "initialLogin")
+        authListener = FirebaseAuth.AuthStateListener { auth ->
+            val user = auth.currentUser
+            Log.d("LOGIN", "statusChanged")
+            if (user != null) {
+                Log.d("USER", "UID: ${user.uid}")
+//                switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
+            } else {
+                Log.d("USER", "login failed")
+                switchFragment(LoginFragment())
+            }
+        }
+    }
+
+    fun generateDummyItems() {
+        var itemsRef = FirebaseFirestore.getInstance().collection("items")
+        var items = listOf<Item>(Item("banana", 3, 1f),
+            Item("apple", 2, .3f),
+            Item("beef", 5, 2f))
+        for (item in items) {
+            itemsRef.add(item)
+        }
+    }
 
     override fun onRoseBtnPressed(isDriver: Boolean) {
         this.isDriver = isDriver
@@ -62,7 +95,7 @@ class LoginActivity : AppCompatActivity(),
                 if (user != null) {
                     Log.d("USER", user?.uid)
                     roleDistribute(user.uid)
-                    createUserIfNotExist()
+//                    createUserIfNotExist()
 //                    mapUserToObject()
 //                    switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
                 }
@@ -81,7 +114,7 @@ class LoginActivity : AppCompatActivity(),
                         val user = FirebaseAuth.getInstance().currentUser
                         if (user != null) {
                             roleDistribute(user.uid)
-                            createUserIfNotExist()
+//                            createUserIfNotExist()
 //                            mapUserToObject()
 //                            switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
                         }
@@ -97,40 +130,46 @@ class LoginActivity : AppCompatActivity(),
         }
     }
 
-    fun createUserIfNotExist() {
-        val uid = auth.currentUser!!.uid
-        userRef.document(uid).get().addOnSuccessListener {
-            if (it == null) {
-                userRef.document(uid).set(User())
-            }
-        }
-
-    }
 
     fun roleDistribute(uid: String) {
         //if the user login as driver
-        if (this.isDriver) {
-            intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            //TODO check if exist a order
-//            switchFragment(DriverLandingFragment.newInstance())
-        } else {
-            //TODO check if exist a order
+        val uid = auth.currentUser!!.uid
+        userRef.document(uid).get().addOnSuccessListener {
+            Log.d("CREATE", "USER CREATING")
+            if (!it.exists()) {
+                Log.d("CREATE", "USER ISNULL")
+                userRef.document(uid).set(User()).addOnSuccessListener {
+                    if (this.isDriver) {
+                        intent = Intent(this, DriverActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        intent = Intent(this,CustomerActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            } else {
+                Log.d("CREATE", it.toString())
+                if (this.isDriver) {
+                    intent = Intent(this, DriverActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    intent = Intent(this,CustomerActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        switchFragment(LoginFragment())
+
     }
 
     private fun switchFragment(switchTo: Fragment) {
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragement_container, switchTo)
+        ft.replace(R.id.fragement_container_login, switchTo)
         for (i in 0 until supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStackImmediate()
         }
         ft.commit()
     }
+
+
 }

@@ -27,7 +27,7 @@ class OrderViewHolder: RecyclerView.ViewHolder {
     fun bind(order: Order){
        customerNameTextView.text = order.customerName
         customerAddressTextView.text = String.format("Address: %s", order.customerAddress)
-        customerTotalTextView.text = String.format("$ %d",order.orderTotal)
+        customerTotalTextView.text = String.format("$ %.2f",order.orderTotal)
 
     }
 }

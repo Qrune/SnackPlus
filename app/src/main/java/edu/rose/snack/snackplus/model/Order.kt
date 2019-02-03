@@ -10,10 +10,9 @@ data class Order(
     var customerName: String = "",
     var customerAddress: String = "",
     var customerPhone: String = "",
-    var orderTotal: Int = 0,
+    var orderTotal: Float = 0F,
     var driverId: String = "",
     var items: MutableList<Item> = mutableListOf(),
-    var total: Float=0F,
     var status: String="IN PROGRESS"
 ) {
     @get:Exclude

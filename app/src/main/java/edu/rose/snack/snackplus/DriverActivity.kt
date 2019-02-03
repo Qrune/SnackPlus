@@ -22,19 +22,13 @@ import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.HashMap
 
-class MainActivity :
+class DriverActivity :
     AppCompatActivity(),
-    LoginFragment.OnLoginButtonPressedListener,
     DriverLandingFragment.OnOrderSelectedListener {
 
 
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
-    var isDriver: Boolean = false
-    private val RC_SIGN_IN = 1
-    private val RC_ROSEFIRE_LOGIN = 2
-    private val ROSE_KEY: String = "e6f7352b-86c8-47c4-9fbb-021a554755cc"
-//    private lateinit var user: User
     private var home_fragment: DriverOrderSummary? = null
 
     private val orderRef = FirebaseFirestore
@@ -46,14 +40,14 @@ class MainActivity :
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        Log.d("DRIVER",item.itemId.toString())
+        Log.d("DRIVER", item.itemId.toString())
         when (item.itemId) {
             R.id.navigation_list -> {
                 userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
                     var orderId = it.getString("orderId").toString()
-                    if(!orderId.equals("")){
+                    if (!orderId.equals("")) {
                         switchFragment(DriverLandingWithOrderFragment.newInstance(orderId))
-                    }else{
+                    } else {
                         switchFragment(DriverLandingFragment.newInstance())
                     }
                 }
@@ -62,9 +56,9 @@ class MainActivity :
             R.id.navigation_home -> {
                 userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
                     var orderId = it.getString("orderId").toString()
-                    if(!orderId.equals("")){
+                    if (!orderId.equals("")) {
                         switchFragment(DriverOrderSummary.newInstance(orderId))
-                    }else{
+                    } else {
                         //TODO deal with non-exist order
                     }
                 }
@@ -79,15 +73,6 @@ class MainActivity :
         false
     }
 
-    fun createUserIfNotExist() {
-        val uid = auth.currentUser!!.uid
-        userRef.document(uid).get().addOnSuccessListener {
-            if (it == null){
-                userRef.document(uid).set(User())
-            }
-        }
-
-    }
 
     private fun initiallizeListeners() {
         Log.d("LOGIN", "initialLogin")
@@ -109,8 +94,14 @@ class MainActivity :
         setContentView(R.layout.activity_main)
         initiallizeListeners()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        switchFragment(LoginFragment())
-
+        userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
+            var orderId = it.getString("orderId").toString()
+            if (!orderId.equals("")) {
+                switchFragment(DriverLandingWithOrderFragment.newInstance(orderId))
+            } else {
+                switchFragment(DriverLandingFragment.newInstance())
+            }
+        }
     }
 
     override fun OnOrderSelected(Id: String, uid: String) {
@@ -129,85 +120,6 @@ class MainActivity :
         navigation.menu.findItem(R.id.navigation_home).isChecked = true
     }
 
-
-    override fun onRoseBtnPressed(isDriver: Boolean) {
-        this.isDriver = isDriver
-        val signInIntent = Rosefire.getSignInIntent(this, ROSE_KEY)
-        startActivityForResult(signInIntent, RC_ROSEFIRE_LOGIN)
-    }
-
-    override fun onUIBtnPressed(isDriver: Boolean) {
-        this.isDriver = isDriver
-        val provider = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-        val loginIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(provider)
-            .build()
-        startActivityForResult(loginIntent, RC_SIGN_IN)
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                // Successfully signed i
-                val user = FirebaseAuth.getInstance().currentUser
-                if (user != null) {
-                    Log.d("USER", user?.uid)
-                    roleDistribute(user.uid)
-                    createUserIfNotExist()
-//                    mapUserToObject()
-//                    switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
-                }
-            } else {
-                Log.d("LOGIN", "login failed")
-                switchFragment(LoginFragment())
-            }
-        } else if (requestCode == RC_ROSEFIRE_LOGIN) {
-            val result = Rosefire.getSignInResultFromIntent(data)
-            if (!result.isSuccessful) {
-                // The user cancelled login
-            }
-            FirebaseAuth.getInstance().signInWithCustomToken(result.token)
-                .addOnCompleteListener(this) {
-                    if (it.isSuccessful) {
-                        val user = FirebaseAuth.getInstance().currentUser
-                        if (user != null) {
-                            roleDistribute(user.uid)
-                            createUserIfNotExist()
-//                            mapUserToObject()
-//                            switchFragment(DriverLandingFragment.newInstance(uid = user.uid))
-                        }
-                    } else {
-                        Toast.makeText(
-                            this, "Authentication failed.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        switchFragment(LoginFragment())
-                    }
-
-                }
-        }
-    }
-
-    fun roleDistribute(uid: String) {
-        //if the user login as driver
-        if (this.isDriver) {
-            //TODO check if exist a order
-            switchFragment(DriverLandingFragment.newInstance())
-        } else {
-            //TODO check if exist a order
-        }
-    }
-
-
-    lateinit var adapter: OrderAdapter
 
     private fun switchFragment(switchTo: Fragment) {
         val ft = supportFragmentManager.beginTransaction()
