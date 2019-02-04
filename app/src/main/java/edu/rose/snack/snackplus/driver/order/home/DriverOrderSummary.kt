@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
 import edu.rose.snack.snackplus.R
@@ -33,10 +34,16 @@ private const val ARG_ORDER_ID = "orderId"
 class DriverOrderSummary : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var orderId: String
+    val auth = FirebaseAuth.getInstance()
     private lateinit var adapter: DriverOrderSummaryAdapter
     private val orderRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.ORDER_COLLECTION)
+
+    private val userRef = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.USER_COLLECTION)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +74,10 @@ class DriverOrderSummary : Fragment() {
             val users = HashMap<String, String>()
             users.put("status","DELIVERED")
             orderRef.document(orderId).update(users as Map<String, Any>)
+            val order = HashMap<String, String>()
+            order.put("orderId","")
+            userRef.document(auth.currentUser!!.uid).update(order as Map<String, Any>)
+
         }
 
 //        adapter = DriverOrderSummaryAdapter(context!!, orderId)

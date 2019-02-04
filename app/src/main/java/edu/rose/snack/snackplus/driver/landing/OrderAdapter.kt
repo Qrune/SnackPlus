@@ -28,6 +28,7 @@ class OrderAdapter(
     fun addSnapshotListener() {
         listenerRegistration = orderRef
             .orderBy(Order.LAST_TOUCHED_KEY)
+            .whereEqualTo("status","IN PROGRESS")
             .addSnapshotListener { querySnapshot, e ->
                 if (e != null) {
                     return@addSnapshotListener
