@@ -12,9 +12,12 @@ import com.google.firebase.firestore.QuerySnapshot
 import edu.rose.snack.snackplus.Constants
 import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.model.Order
-import edu.rose.snack.snackplus.utils.OrdersHardCode
 
-class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnOrderSelectedListener?, var uid: String): RecyclerView.Adapter<OrderViewHolder>(){
+class OrderAdapter(
+    var context: Context,
+    var listener: DriverLandingFragment.OnOrderSelectedListener?,
+    var uid: String
+) : RecyclerView.Adapter<OrderViewHolder>() {
     private val orders = ArrayList<Order>()
     private val orderRef = FirebaseFirestore
         .getInstance()
@@ -22,36 +25,38 @@ class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnO
     private lateinit var listenerRegistration: ListenerRegistration
 
 
-    fun addSnapshotListener(){
+    fun addSnapshotListener() {
         listenerRegistration = orderRef
             .orderBy(Order.LAST_TOUCHED_KEY)
-            .addSnapshotListener{ querySnapshot, e ->
-                if (e!=null){
+            .whereEqualTo("status","IN PROGRESS")
+            .addSnapshotListener { querySnapshot, e ->
+                if (e != null) {
                     return@addSnapshotListener
                 }
                 processSnapshotChanges(querySnapshot!!)
             }
     }
-    private fun processSnapshotChanges(querySnapshot: QuerySnapshot){
-        for (documentChange in querySnapshot.documentChanges){
+
+    private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
+        for (documentChange in querySnapshot.documentChanges) {
             val order = Order.fromSnapshot(documentChange.document)
-            when (documentChange.type){
+            when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
-                    orders.add(0,order)
+                    orders.add(0, order)
                     notifyItemInserted(0)
                 }
                 DocumentChange.Type.REMOVED -> {
-                    for ((k, o) in orders.withIndex()){
-                        if (o.id == order.id){
+                    for ((k, o) in orders.withIndex()) {
+                        if (o.id == order.id) {
                             orders.removeAt(k)
                             notifyItemRemoved(k)
                             break
                         }
                     }
                 }
-                DocumentChange.Type.MODIFIED ->{
-                    for ((k,o) in orders.withIndex()){
-                        if (o.id == order.id){
+                DocumentChange.Type.MODIFIED -> {
+                    for ((k, o) in orders.withIndex()) {
+                        if (o.id == order.id) {
                             orders[k] = order
                             notifyItemChanged(k)
                             break
@@ -61,6 +66,7 @@ class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnO
             }
         }
     }
+
     override fun getItemCount(): Int {
         return orders.size
     }
@@ -74,16 +80,17 @@ class OrderAdapter(var context: Context, var listener: DriverLandingFragment.OnO
         return OrderViewHolder(view, this)
     }
 
-    fun add(order: Order){
+    fun add(order: Order) {
         orderRef.add(order)
     }
-    fun remove(position: Int){
+
+    fun remove(position: Int) {
         orderRef.document(orders[position].id).delete()
     }
 
     fun selectOrderAt(adapterPosition: Int) {
         var Id = orders[adapterPosition].id
-        Log.d("Order",Id)
+        Log.d("Order", Id)
         listener?.OnOrderSelected(Id, uid)
     }
 }

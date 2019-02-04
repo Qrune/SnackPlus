@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.customer_checkout_recycler_item.view.*
  * specified [OnItemSelectItemSelected].
  * TODO: Replace the implementation with code for your data type.
  */
+/*
 class CheckoutListAdapter(
     private val selectedItems:MutableMap<String,Int>,
     private val total:Float
@@ -69,5 +70,80 @@ class CheckoutListAdapter(
         val itemName = mView.customer_checkout_recycler_view_item_name
         val itemQuantity = mView.customer_chekcout_recycler_view_item_quantity
         val itemPrice = mView.customer_checkout_recycler_view_item_price
+    }
+}
+*/
+
+
+class CheckoutListAdapter(
+    private val selectedItems: MutableMap<String, Int>,
+    private val total: Float
+) : RecyclerView.Adapter<CheckoutListAdapter.CheckoutListViewHolder>() {
+
+//    private val mOnClickListener: View.OnClickListener
+
+    private val items = mutableListOf<Item>()
+    private val itemsRef = FirebaseFirestore.getInstance().collection("items")
+    private val ordersRef = FirebaseFirestore.getInstance().collection("orders")
+    private var listener: OnOrderPlacedListener? = null
+
+    fun attachOnOrderPlacedListener(istener: OnOrderPlacedListener) {
+        listener = istener
+    }
+
+    init {
+        for (itemId in selectedItems.keys) {
+            if (selectedItems[itemId]!! > 0) {
+                itemsRef.document(itemId).get().addOnSuccessListener {
+                    val item = Item.fromSnapshot(it)
+                    item.quantity = selectedItems[item.id]!!
+                    items.add(item)
+                    notifyItemInserted(0)
+                }
+            }
+        }
+//        Log.d("dlkfjslakjf", selectedItems.toString())
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckoutListViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.customer_checkout_recycler_item, parent, false)
+        return CheckoutListViewHolder(view)
+    }
+
+    override fun onBindViewHolder(itemHolder: CheckoutListViewHolder, position: Int) {
+        val item = items[position]
+//        Log.d("sdflksj", "items is $items")
+
+//        Log.d("adkfaldfkj ", "missign key:?${item.id}")
+        itemHolder.itemName.text = item.name
+        itemHolder.itemPrice.text = (item.price * item.quantity).toString()
+        itemHolder.itemQuantity.text = item.quantity.toString()
+
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    inner class CheckoutListViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
+        val itemName = mView.customer_checkout_recycler_view_item_name
+        val itemQuantity = mView.customer_chekcout_recycler_view_item_quantity
+        val itemPrice = mView.customer_checkout_recycler_view_item_price
+    }
+
+    //
+//    fun placeOrder() {
+//        ordersRef.add(Order(customerName = "Winston", customerAddress = "dummy address", customerPhone = "8121212", items = items, orderTotal = total))
+//    }
+    fun placeOrder(address: String) {
+        val order = Order("Jerry", address, "8888888888", items, total)
+        Log.d("tag", "items: $items, total: $total")
+//        ordersRef.add(order).addOnSuccessListener {
+//            listener?.onOrderPlaced(it.id)
+//        }
+    }
+
+
+    interface OnOrderPlacedListener {
+        fun onOrderPlaced(orderId: String)
     }
 }

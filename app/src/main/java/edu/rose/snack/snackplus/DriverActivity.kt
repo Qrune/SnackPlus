@@ -59,7 +59,10 @@ class DriverActivity :
                     if (!orderId.equals("")) {
                         switchFragment(DriverOrderSummary.newInstance(orderId))
                     } else {
-                        //TODO deal with non-exist order
+                        Toast.makeText(
+                            this, "You need take a order first",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 return@OnNavigationItemSelectedListener true

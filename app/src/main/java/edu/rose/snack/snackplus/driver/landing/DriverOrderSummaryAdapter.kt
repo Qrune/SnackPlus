@@ -24,7 +24,8 @@ class DriverOrderSummaryAdapter(var context: Context, var orderId: String): Recy
 
     init {
         Log.d("Driver","init")
-        orderRef.get().addOnSuccessListener { documentSnapshot ->
+        orderRef.
+            get().addOnSuccessListener { documentSnapshot ->
             Log.d("DRIVER",orderId)
            _items = documentSnapshot.toObject(Order::class.java)!!.items
             notifyDataSetChanged()
