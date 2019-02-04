@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import edu.rose.snack.snackplus.R
-import edu.rose.snack.snackplus.utils.OrdersHardCode
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,11 +34,10 @@ class DriverLandingFragment : Fragment() {
     private var uid: String = FirebaseAuth.getInstance().currentUser!!.uid
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            uid = it.getString(ARG_UID)
+            //            uid = it.getString(ARG_UID)
         }
     }
 
@@ -48,7 +46,7 @@ class DriverLandingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var constraintView = inflater.inflate(R.layout.driver_landing, container, false) as ConstraintLayout
-        var recyclerView:RecyclerView = constraintView.findViewById(R.id.customer_checkout_recycler_view)
+        var recyclerView: RecyclerView = constraintView.findViewById(R.id.customer_checkout_recycler_view)
         adapter = OrderAdapter(context!!, listener, uid!!)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
@@ -86,7 +84,7 @@ class DriverLandingFragment : Fragment() {
      * (http://developer.android.com/training/basics/fragments/communicating.html)
      * for more information.
      */
-    interface OnOrderSelectedListener{
+    interface OnOrderSelectedListener {
         // TODO: Update argument type and name
         fun OnOrderSelected(Id: String, uid: String)
     }
@@ -105,7 +103,7 @@ class DriverLandingFragment : Fragment() {
         fun newInstance() =
             DriverLandingFragment().apply {
                 arguments = Bundle().apply {
-//                   putString(ARG_UID, uid)
+                    //                   putString(ARG_UID, uid)
                 }
             }
     }
