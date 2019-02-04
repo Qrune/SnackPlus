@@ -7,7 +7,7 @@
             />
 
     <item
-            android:id="@+id/navigation_order_details"
+            android:id="@+id/navigation_home"
             android:icon="@drawable/ic_home"/>
 
     <item

@@ -8,7 +8,6 @@ import android.util.Log
 import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.customer.checkout.CheckoutFragment
 import edu.rose.snack.snackplus.customer.item_select.ItemSelectListFragment
-import edu.rose.snack.snackplus.customer.order_details.OrderDetailsFragment
 
 class CustomerActivity : AppCompatActivity(),
     ItemSelectListFragment.OnCheckoutListener  {
@@ -31,28 +30,21 @@ class CustomerActivity : AppCompatActivity(),
         setContentView(R.layout.activity_customer)
         switchFragment(ItemSelectListFragment())
 
-        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.customer_navigation)
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
 
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-
-
         when (item.itemId) {
-            R.id.navigation_order_details -> {
+            R.id.navigation_home -> {
 //                message.setText(R.string.title_home)
-                switchFragment(OrderDetailsFragment())
-                Log.d("dlfkj","switch to OrderDetailsFragment")
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_browse_snacks -> {
+            R.id.navigation_dashboard -> {
 //                message.setText(R.string.title_dashboard)
-                switchFragment(ItemSelectListFragment())
-                Log.d("dlfakjf","Switch to ItemSelectFragment")
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_profile -> {
+            R.id.navigation_notifications -> {
 //                message.setText(R.string.title_notifications)
                 return@OnNavigationItemSelectedListener true
             }

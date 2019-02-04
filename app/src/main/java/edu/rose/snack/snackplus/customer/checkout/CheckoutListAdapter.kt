@@ -3,10 +3,10 @@ package edu.rose.snack.snackplus.customer.checkout
 
 //import edu.rose.snack.snackplus.dummy.DummyContent.DummyItem
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Models.Item
 import edu.rose.snack.snackplus.R
@@ -125,7 +125,7 @@ class CheckoutListAdapter(
     override fun getItemCount(): Int = items.size
 
     inner class CheckoutListViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-        val itemName = mView.customer_order_details_recycler_view_item_name
+        val itemName = mView.customer_checkout_recycler_view_item_name
         val itemQuantity = mView.customer_chekcout_recycler_view_item_quantity
         val itemPrice = mView.customer_checkout_recycler_view_item_price
     }
@@ -135,11 +135,11 @@ class CheckoutListAdapter(
 //        ordersRef.add(Order(customerName = "Winston", customerAddress = "dummy address", customerPhone = "8121212", items = items, orderTotal = total))
 //    }
     fun placeOrder(address: String) {
-        val order = Order("Jerry", address, "8888888888", items, total,FirebaseAuth.getInstance().uid!!)
-//        Log.d("tag", "items: $items, total: $total")
-        ordersRef.add(order).addOnSuccessListener {
-            listener?.onOrderPlaced(it.id)
-        }
+        val order = Order("Jerry", address, "8888888888", items, total)
+        Log.d("tag", "items: $items, total: $total")
+//        ordersRef.add(order).addOnSuccessListener {
+//            listener?.onOrderPlaced(it.id)
+//        }
     }
 
 
