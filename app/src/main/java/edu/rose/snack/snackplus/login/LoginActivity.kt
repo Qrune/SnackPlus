@@ -57,9 +57,11 @@ class LoginActivity : AppCompatActivity(),
 
     fun generateDummyItems() {
         var itemsRef = FirebaseFirestore.getInstance().collection("items")
-        var items = listOf<Item>(Item("banana", 3, 1f),
+        var items = listOf<Item>(
+            Item("banana", 3, 1f),
             Item("apple", 2, .3f),
-            Item("beef", 5, 2f))
+            Item("beef", 5, 2f)
+        )
         for (item in items) {
             itemsRef.add(item)
         }
@@ -137,23 +139,16 @@ class LoginActivity : AppCompatActivity(),
         userRef.document(uid).get().addOnSuccessListener {
             Log.d("CREATE", "USER CREATING")
             if (!it.exists()) {
-                Log.d("CREATE", "USER ISNULL")
-                userRef.document(uid).set(User()).addOnSuccessListener {
-                    if (this.isDriver) {
-                        intent = Intent(this, DriverActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        intent = Intent(this,CustomerActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
+                switchFragment(SignUpFragment())
+
             } else {
                 Log.d("CREATE", it.toString())
-                if (this.isDriver) {
+                var user:User = it.toObject(User::class.java)!!
+                if (user.role.equals("driver")) {
                     intent = Intent(this, DriverActivity::class.java)
                     startActivity(intent)
                 } else {
-                    intent = Intent(this,CustomerActivity::class.java)
+                    intent = Intent(this, CustomerActivity::class.java)
                     startActivity(intent)
                 }
             }

@@ -1,6 +1,7 @@
 package edu.rose.snack.snackplus.login
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,8 +14,10 @@ import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
+import edu.rose.snack.snackplus.DriverActivity
 
 import edu.rose.snack.snackplus.R
+import edu.rose.snack.snackplus.customer.CustomerActivity
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.DriverLandingWithOrderFragment
 import edu.rose.snack.snackplus.model.User
@@ -45,11 +48,22 @@ class SignUpFragment : Fragment() {
         // Inflate the layout for this fragment
         var constraintView = inflater.inflate(R.layout.fragment_sign_up, container, false)
         var name = constraintView.findViewById<EditText>(R.id.edit_signup_name)
-        var address = constraintView.findViewById<EditText>(R.id.edit_signup_name)
+        var address = constraintView.findViewById<EditText>(R.id.edit_signup_address)
+        var email = constraintView.findViewById<EditText>(R.id.edit_signup_email)
+        var phone = constraintView.findViewById<EditText>(R.id.edit_signup_phone)
         var nextBtn = constraintView.findViewById<Button>(R.id.btn_signup_next)
         nextBtn.setOnClickListener {
-            userRef.document(auth.currentUser!!.uid).set(User()).addOnSuccessListener {
-
+            userRef.document(auth.currentUser!!.uid).set(
+                User(
+                    name = name.text.toString(),
+                    address = address.text.toString(),
+                    email = email.text.toString(),
+                    phone = phone.text.toString(),
+                    role = "driver"
+                )
+            ).addOnSuccessListener {
+                var intent = Intent(context, DriverActivity::class.java)
+                startActivity(intent)
             }
         }
 
@@ -63,11 +77,11 @@ class SignUpFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
+//        if (context is OnFragmentInteractionListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+//        }
     }
 
     override fun onDetach() {

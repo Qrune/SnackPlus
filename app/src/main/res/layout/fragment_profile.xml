@@ -73,7 +73,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/textView2" android:text="Phone Number "
                 android:textColor="@android:color/white" android:textStyle="bold" android:textSize="18sp"
-                tools:layout_editor_absoluteY="120dp" tools:layout_editor_absoluteX="24dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/edit_phone_number" android:layout_marginBottom="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView3"/>
         <Button
 
                 android:background="@drawable/ic_log_in_button"
