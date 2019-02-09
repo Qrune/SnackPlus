@@ -1,5 +1,6 @@
 package edu.rose.snack.snackplus
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -11,13 +12,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.DriverLandingWithOrderFragment
 import edu.rose.snack.snackplus.driver.order.home.DriverOrderSummary
+import edu.rose.snack.snackplus.login.LoginActivity
 import edu.rose.snack.snackplus.login.LoginFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.HashMap
 
 class DriverActivity :
     AppCompatActivity(),
-    DriverLandingFragment.OnOrderSelectedListener {
+    DriverLandingFragment.OnOrderSelectedListener,
+    ProfileFragment.OnLogoutBtnListener {
 
 
     val auth = FirebaseAuth.getInstance()
@@ -62,6 +65,7 @@ class DriverActivity :
             }
             R.id.navigation_profile -> {
                 //TODO deal with profile page
+                switchFragment(ProfileFragment())
                 return@OnNavigationItemSelectedListener true
             }
 
@@ -98,6 +102,16 @@ class DriverActivity :
                 switchFragment(DriverLandingFragment.newInstance())
             }
         }
+    }
+
+    override fun onLogoutBtnPressed() {
+        auth.signOut()
+        intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        Toast.makeText(
+            this, "Signed out",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun OnOrderSelected(Id: String, uid: String) {
