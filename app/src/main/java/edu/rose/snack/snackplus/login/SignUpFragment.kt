@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
@@ -15,6 +17,7 @@ import edu.rose.snack.snackplus.Constants
 import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.DriverLandingWithOrderFragment
+import edu.rose.snack.snackplus.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,10 +44,15 @@ class SignUpFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var constraintView = inflater.inflate(R.layout.fragment_sign_up, container, false)
+        var name = constraintView.findViewById<EditText>(R.id.edit_signup_name)
+        var address = constraintView.findViewById<EditText>(R.id.edit_signup_name)
+        var nextBtn = constraintView.findViewById<Button>(R.id.btn_signup_next)
+        nextBtn.setOnClickListener {
+            userRef.document(auth.currentUser!!.uid).set(User()).addOnSuccessListener {
 
-        userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
-
+            }
         }
+
         return constraintView
     }
 
