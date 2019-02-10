@@ -144,10 +144,13 @@ class LoginActivity : AppCompatActivity(),
             } else {
                 Log.d("CREATE", it.toString())
                 var user:User = it.toObject(User::class.java)!!
+                Log.d("LOGIN",user.role)
                 if (user.role.equals("driver")) {
+                    Log.d("LOGIN", "DRIVER")
                     intent = Intent(this, DriverActivity::class.java)
                     startActivity(intent)
                 } else {
+                    Log.d("LOGIN", "CUSTOMER")
                     intent = Intent(this, CustomerActivity::class.java)
                     startActivity(intent)
                 }

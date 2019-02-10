@@ -3,7 +3,7 @@
 
     <item
             android:id="@+id/navigation_list"
-            android:icon="@drawable/ic_health_data"
+            android:icon="@drawable/ic_all"
             />
 
     <item

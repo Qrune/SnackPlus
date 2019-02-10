@@ -42,10 +42,6 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.log_in_main, container, false)
-        val toggle: ToggleButton = view.findViewById(R.id.is_driver)
-        toggle.setOnCheckedChangeListener { _, isChecked ->
-            isDriver = isChecked
-        }
 //        var inputEmail = view.findViewById<EditText>(R.id.login_email)
 //        var inputPassword = view.findViewById<EditText>(R.id.login_password)
         view.btn_login_login.setOnClickListener{

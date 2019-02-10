@@ -10,9 +10,10 @@
 
     <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp" android:id="@+id/fragement_container_customer"
+            android:id="@+id/fragement_container_customer"
             app:layout_constraintBottom_toTopOf="@+id/customer_navigation"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
 
     </FrameLayout>
     <android.support.design.widget.BottomNavigationView
@@ -21,14 +22,13 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
-            android:layout_gravity="bottom"
             android:background="?android:attr/windowBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/customer_navigation"
-
-            android:foreground="?attr/selectableItemBackground"
-            />
+            app:itemIconTint="@color/nav_bar"
+            app:itemTextColor="@color/nav_bar"
+            app:menu="@menu/bottom_navigation"
+            app:itemBackground="@color/grey"/>
 
 </android.support.constraint.ConstraintLayout>

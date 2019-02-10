@@ -3,14 +3,18 @@ package edu.rose.snack.snackplus.customer.checkout
 
 //import edu.rose.snack.snackplus.dummy.DummyContent.DummyItem
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rose.snack.snackplus.Constants
+import edu.rose.snack.snackplus.Dto.UserInfoDto
 import edu.rose.snack.snackplus.Models.Item
 import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.model.Order
+import edu.rose.snack.snackplus.model.User
 import kotlinx.android.synthetic.main.customer_checkout_recycler_item.view.*
 
 /**
@@ -86,6 +90,10 @@ class CheckoutListAdapter(
     private val itemsRef = FirebaseFirestore.getInstance().collection("items")
     private val ordersRef = FirebaseFirestore.getInstance().collection("orders")
     private var listener: OnOrderPlacedListener? = null
+    private val userRef = FirebaseFirestore
+        .getInstance()
+        .collection(Constants.USER_COLLECTION)
+    val auth = FirebaseAuth.getInstance()
 
     fun attachOnOrderPlacedListener(istener: OnOrderPlacedListener) {
         listener = istener
@@ -113,9 +121,6 @@ class CheckoutListAdapter(
 
     override fun onBindViewHolder(itemHolder: CheckoutListViewHolder, position: Int) {
         val item = items[position]
-//        Log.d("sdflksj", "items is $items")
-
-//        Log.d("adkfaldfkj ", "missign key:?${item.id}")
         itemHolder.itemName.text = item.name
         itemHolder.itemPrice.text = (item.price * item.quantity).toString()
         itemHolder.itemQuantity.text = item.quantity.toString()
@@ -135,11 +140,16 @@ class CheckoutListAdapter(
 //        ordersRef.add(Order(customerName = "Winston", customerAddress = "dummy address", customerPhone = "8121212", items = items, orderTotal = total))
 //    }
     fun placeOrder(address: String) {
-        val order = Order("Jerry", address, "8888888888", items, total,FirebaseAuth.getInstance().uid!!)
-//        Log.d("tag", "items: $items, total: $total")
-        ordersRef.add(order).addOnSuccessListener {
-            listener?.onOrderPlaced(it.id)
+        userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
+            var user = it.toObject(User::class.java)
+            val order = Order(user!!.name, address, user.phone, items, total, FirebaseAuth.getInstance().uid!!)
+            ordersRef.add(order).addOnSuccessListener {
+                listener?.onOrderPlaced(it.id)
+            }
+        }.addOnFailureListener{
+            Log.d("CHECKOUT",it.message)
         }
+
     }
 
 

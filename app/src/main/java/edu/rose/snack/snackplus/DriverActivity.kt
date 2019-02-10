@@ -93,7 +93,7 @@ class DriverActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initiallizeListeners()
-        customer_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        driver_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
             var orderId = it.getString("orderId").toString()
             if (!orderId.equals("")) {
@@ -127,7 +127,7 @@ class DriverActivity :
         ft.replace(R.id.fragement_container, fragment)
         ft.addToBackStack("DriverOrderSummary")
         ft.commit()
-        customer_navigation.menu.findItem(R.id.navigation_order_details).isChecked = true
+        driver_navigation.menu.findItem(R.id.navigation_order_details).isChecked = true
     }
 
 
