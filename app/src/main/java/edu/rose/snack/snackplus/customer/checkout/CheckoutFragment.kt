@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -25,10 +26,10 @@ class CheckoutFragment : Fragment(), CheckoutListAdapter.OnOrderPlacedListener {
 //        textTotal.text=orderId
     }
 
-
+    private  var listener:OnViewOrderDetails?=null
     private lateinit var recyclerView: RecyclerView
     private lateinit var textTotal: TextView
-    private lateinit var buttonCheckout: Button
+    private lateinit var buttonCheckout: ImageView
     private lateinit var selectedItems: MutableMap<String, Int>
     var total: Float = 0F
     private val userRef = FirebaseFirestore
@@ -38,6 +39,9 @@ class CheckoutFragment : Fragment(), CheckoutListAdapter.OnOrderPlacedListener {
     private lateinit var user: edu.rose.snack.snackplus.model.User
 
 
+    fun attachOnViewOrderDetailsListener(l:OnViewOrderDetails){
+        listener=l
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -76,6 +80,7 @@ class CheckoutFragment : Fragment(), CheckoutListAdapter.OnOrderPlacedListener {
         madapter.attachOnOrderPlacedListener(this)
         buttonCheckout.setOnClickListener {
             madapter.placeOrder(textAddress!!.text.toString())
+            listener!!.onViewOrderDetails()
         }
         recyclerView = view.recycler_view_checkout_item_list
         recyclerView.apply {
@@ -85,6 +90,9 @@ class CheckoutFragment : Fragment(), CheckoutListAdapter.OnOrderPlacedListener {
         }
 
         return view
+    }
+    interface OnViewOrderDetails{
+        fun onViewOrderDetails()
     }
 
     companion object {

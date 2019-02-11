@@ -140,10 +140,11 @@ class CheckoutListAdapter(
 //        ordersRef.add(Order(customerName = "Winston", customerAddress = "dummy address", customerPhone = "8121212", items = items, orderTotal = total))
 //    }
     fun placeOrder(address: String) {
-        userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
+        userRef.document(auth.uid!!).get().addOnSuccessListener {
             var user = it.toObject(User::class.java)
             val order = Order(user!!.name, address, user.phone, items, total, FirebaseAuth.getInstance().uid!!)
             ordersRef.add(order).addOnSuccessListener {
+                userRef.document(auth.uid!!).update("orderId",it.id)
                 listener?.onOrderPlaced(it.id)
             }
         }.addOnFailureListener{

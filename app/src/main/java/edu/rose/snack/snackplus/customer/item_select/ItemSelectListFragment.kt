@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,7 +30,7 @@ class ItemSelectListFragment : Fragment(), ItemSelectListAdapter.OnItemQuantityC
 
 
     private lateinit var textViewTotal: TextView
-    private lateinit var buttonCheckout: Button
+    private lateinit var buttonCheckout: ImageView
     private var listener: OnCheckoutListener? = null
     private var total: Float = 0F
     private var itemsRef = FirebaseFirestore.getInstance().collection(Constants.ITEM_COLLECTION)

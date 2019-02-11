@@ -6,7 +6,8 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".customer.CustomerActivity">
+        tools:context=".customer.CustomerActivity"
+android:background="@color/background">
 
     <FrameLayout
             android:layout_width="match_parent"

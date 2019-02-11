@@ -81,6 +81,7 @@ class LoginActivity : AppCompatActivity(),
         )
         val loginIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
+            .setLogo(R.drawable.main_logo)
             .setAvailableProviders(provider)
             .build()
         startActivityForResult(loginIntent, RC_SIGN_IN)

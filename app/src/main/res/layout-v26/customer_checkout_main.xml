@@ -30,20 +30,22 @@
                     android:layout_alignParentStart="true"
                     android:background="@android:color/darker_gray"
                     >
-        <Button android:layout_width="100dp" android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:id="@+id/btn_checkout_order"
-                android:background="@color/colorBlueBright"
-                android:layout_alignParentTop="true"
-                android:text="@string/order"
-                android:layout_marginRight="2dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_checkout_btn"
+                android:id="@+id/btn_checkout_order" android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"/>
         <TextView android:layout_width="wrap_content" android:layout_height="match_parent"
                   android:text="Total:$20"
                   android:gravity="center"
-                  android:layout_marginRight="8dp"
+                  android:layout_marginRight="159dp"
                   android:textStyle="bold"
-                  android:layout_toLeftOf="@+id/btn_checkout_order"
-                  android:id="@+id/txt_checkout_total"/>
+
+                  android:id="@+id/txt_checkout_total"
+                  android:layout_alignParentTop="true" android:layout_marginTop="0dp"
+                  android:layout_alignParentStart="true" android:layout_marginStart="0dp"
+                  android:layout_toStartOf="@+id/btn_checkout_order" android:layout_marginEnd="0dp"
+                  android:layout_alignParentBottom="true" android:layout_marginBottom="0dp"/>
 
     </RelativeLayout>
 
