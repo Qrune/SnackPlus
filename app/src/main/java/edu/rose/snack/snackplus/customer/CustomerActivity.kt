@@ -32,7 +32,7 @@ class CustomerActivity : AppCompatActivity(),
         switchFragment(OrderDetailsFragment())
         Toast.makeText(this,"Order placed",Toast.LENGTH_LONG).show()
         changeViewOrderDetailsState(true)
-
+        customer_navigation.menu.getItem(0).isChecked=true
     }
 
     val auth = FirebaseAuth.getInstance()
@@ -123,11 +123,13 @@ class CustomerActivity : AppCompatActivity(),
     }
 
     private fun switchFragment(switchTo: Fragment) {
+
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragement_container_customer, switchTo)
         for (i in 0 until supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStackImmediate()
         }
         ft.commit()
+
     }
 }
