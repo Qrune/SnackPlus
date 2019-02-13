@@ -18,9 +18,23 @@ import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.customer.CustomerActivity
 import edu.rose.snack.snackplus.model.User
 import edu.rosehulman.rosefire.Rosefire
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.places.Place
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
+import com.google.android.gms.location.places.ui.PlaceSelectionListener
 
 class LoginActivity : AppCompatActivity(),
-    LoginFragment.OnLoginButtonPressedListener {
+    LoginFragment.OnLoginButtonPressedListener,
+    PlaceSelectionListener {
+    override fun onPlaceSelected(p0: Place?) {
+
+        Toast.makeText(applicationContext,""+p0!!.name+p0!!.latLng,Toast.LENGTH_LONG).show();
+    }
+
+    override fun onError(status: Status) {
+        Toast.makeText(applicationContext,""+status.toString(),Toast.LENGTH_LONG).show();
+    }
+
     var isDriver: Boolean = false
     private val RC_SIGN_IN = 1
     private val RC_ROSEFIRE_LOGIN = 2
@@ -36,6 +50,9 @@ class LoginActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         initiallizeListeners()
+        val autocompleteFragment = fragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                as PlaceAutocompleteFragment
+        autocompleteFragment.setOnPlaceSelectedListener(this)
 //        generateDummyItems()
         switchFragment(LoginFragment())
     }

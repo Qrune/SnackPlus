@@ -16,7 +16,7 @@
             android:id="@+id/textView_driver_order_name"
             android:textSize="24sp"
             android:textAlignment="textEnd" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="44dp"
-            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/mapView"/>
+            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/driver_map_view"/>
     <TextView
             android:text="8122395326"
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
     <com.google.android.gms.maps.MapView
             android:layout_width="0dp"
             android:layout_height="304dp"
-            android:id="@+id/mapView" app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/driver_map_view" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="48dp"
             app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintHorizontal_bias="0.0"/>
     <ImageView

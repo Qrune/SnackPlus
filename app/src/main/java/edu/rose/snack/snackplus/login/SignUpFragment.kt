@@ -1,5 +1,6 @@
 package edu.rose.snack.snackplus.login
 
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -9,8 +10,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.places.Place
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
+import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
@@ -21,6 +28,9 @@ import edu.rose.snack.snackplus.customer.CustomerActivity
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.DriverLandingWithOrderFragment
 import edu.rose.snack.snackplus.model.User
+import kotlinx.android.synthetic.main.fragment_sign_up.*
+import java.lang.reflect.Field
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,13 +44,26 @@ private const val ARG_PARAM2 = "param2"
  * to handle interaction events.
  *
  */
-class SignUpFragment : Fragment() {
+class SignUpFragment : PlaceSelectionListener, Fragment() {
+    override fun onPlaceSelected(place: Place) {
+        address.setText(place.name)
+    }
+
+    override fun onError(p0: Status) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private var listener: OnFragmentInteractionListener? = null
     private val userRef = FirebaseFirestore
         .getInstance()
         .collection(Constants.USER_COLLECTION)
-
+    var AUTOCOMPLETE_REQUEST_CODE = 9
+    lateinit var address: EditText
     val auth = FirebaseAuth.getInstance()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +71,8 @@ class SignUpFragment : Fragment() {
         // Inflate the layout for this fragment
         var constraintView = inflater.inflate(R.layout.fragment_sign_up, container, false)
         var name = constraintView.findViewById<EditText>(R.id.edit_signup_name)
-        var address = constraintView.findViewById<EditText>(R.id.edit_signup_address)
+        address = constraintView.findViewById(R.id.edit_signup_address)
+
         var email = constraintView.findViewById<EditText>(R.id.edit_signup_email)
         var phone = constraintView.findViewById<EditText>(R.id.edit_signup_phone)
         var nextBtn = constraintView.findViewById<Button>(R.id.btn_signup_next)
@@ -67,8 +91,11 @@ class SignUpFragment : Fragment() {
             }
         }
 
+
+
         return constraintView
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {

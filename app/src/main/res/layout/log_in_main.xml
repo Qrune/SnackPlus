@@ -35,5 +35,4 @@ android:background="@color/background">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="180dp"
             app:layout_constraintHorizontal_bias="0.503"/>
-
 </android.support.constraint.ConstraintLayout>

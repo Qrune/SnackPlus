@@ -11,6 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
@@ -64,6 +69,15 @@ class DriverOrderSummary : Fragment() {
         var customerName = constraintView.findViewById<TextView>(R.id.textView_driver_order_name)
         var customerNumber = constraintView.findViewById<TextView>(R.id.textView_driver_order_number)
         var customerAdddress = constraintView.findViewById<TextView>(R.id.textView_driver_order_address)
+        var mapView = constraintView.findViewById<MapView>(R.id.driver_map_view)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync{
+            val sydney = LatLng(-34.0, 151.0)
+            it.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+            it.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+            it.setMaxZoomPreference(19.0f)
+            it.setMinZoomPreference(15.0F)
+        }
         orderRef.document(orderId!!).get().addOnSuccessListener {snapshot ->
             customerName.text = snapshot["customerName"] as String
             customerNumber.text = snapshot["customerPhone"] as String
