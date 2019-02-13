@@ -12,8 +12,11 @@ data class Order(
     var customerPhone: String = "",
     var items: MutableList<Item> = mutableListOf(),
     var orderTotal: Float = 0F,
+
     var customerId:String="",
     var driverId: String = "",
+    var driverLat: Double = 37.419857,
+    var driverLong: Double = -122.078827,
     var status: String="IN PROGRESS"
 ) {
     @get:Exclude

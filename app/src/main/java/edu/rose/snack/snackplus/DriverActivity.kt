@@ -1,12 +1,17 @@
 package edu.rose.snack.snackplus
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.location.Location
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.widget.Toast
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
@@ -16,12 +21,21 @@ import edu.rose.snack.snackplus.login.LoginActivity
 import edu.rose.snack.snackplus.login.LoginFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.HashMap
+import android.Manifest.permission
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.support.v4.app.ActivityCompat
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
+
+
 
 class DriverActivity :
     AppCompatActivity(),
     DriverLandingFragment.OnOrderSelectedListener,
     ProfileFragment.OnLogoutBtnListener {
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     val auth = FirebaseAuth.getInstance()
     lateinit var authListener: FirebaseAuth.AuthStateListener
@@ -34,7 +48,25 @@ class DriverActivity :
         .getInstance()
         .collection(Constants.USER_COLLECTION)
 
+    fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {//Can add more as per requirement
 
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                123
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         Log.d("DRIVER", item.itemId.toString())
         when (item.itemId) {
@@ -52,6 +84,16 @@ class DriverActivity :
             R.id.navigation_order_details -> {
                 userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
                     var orderId = it.getString("orderId").toString()
+                    fusedLocationClient.lastLocation
+                        .addOnSuccessListener { location : Location? ->
+                            val loca = HashMap<String, Double>()
+                            loca.put("driverLat",location!!.latitude)
+                            loca.put("driverLong",location!!.longitude)
+                            orderRef.document(orderId).update(loca as Map<String, Any>)
+                            Log.d("LOCATION",location!!.longitude.toString())
+                        }.addOnFailureListener{
+                            Log.d("LOCATION",it.message)
+                        }
                     if (!orderId.equals("")) {
                         switchFragment(DriverOrderSummary.newInstance(orderId))
                     } else {
@@ -93,6 +135,7 @@ class DriverActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initiallizeListeners()
+        checkPermission()
         driver_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
             var orderId = it.getString("orderId").toString()
@@ -102,6 +145,7 @@ class DriverActivity :
                 switchFragment(DriverLandingFragment.newInstance())
             }
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onLogoutBtnPressed() {
