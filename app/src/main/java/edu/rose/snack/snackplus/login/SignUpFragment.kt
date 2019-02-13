@@ -15,9 +15,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.location.places.Place
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
-import com.google.android.gms.location.places.ui.PlaceSelectionListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.Constants
@@ -44,14 +41,7 @@ private const val ARG_PARAM2 = "param2"
  * to handle interaction events.
  *
  */
-class SignUpFragment : PlaceSelectionListener, Fragment() {
-    override fun onPlaceSelected(place: Place) {
-        address.setText(place.name)
-    }
-
-    override fun onError(p0: Status) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class SignUpFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
     private val userRef = FirebaseFirestore
