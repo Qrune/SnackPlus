@@ -1,6 +1,5 @@
 package edu.rose.snack.snackplus
 
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -8,23 +7,20 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.widget.Toast
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rose.snack.snackplus.driver.landing.DriverLandingFragment
 import edu.rose.snack.snackplus.driver.landing.DriverLandingWithOrderFragment
-import edu.rose.snack.snackplus.driver.landing.OrderAdapter
 import edu.rose.snack.snackplus.driver.order.home.DriverOrderSummary
+import edu.rose.snack.snackplus.login.LoginActivity
 import edu.rose.snack.snackplus.login.LoginFragment
-import edu.rose.snack.snackplus.model.User
-import edu.rosehulman.rosefire.Rosefire
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.collections.HashMap
 
 class DriverActivity :
     AppCompatActivity(),
-    DriverLandingFragment.OnOrderSelectedListener {
+    DriverLandingFragment.OnOrderSelectedListener,
+    ProfileFragment.OnLogoutBtnListener {
 
 
     val auth = FirebaseAuth.getInstance()
@@ -53,7 +49,7 @@ class DriverActivity :
                 }
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_home -> {
+            R.id.navigation_order_details -> {
                 userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
                     var orderId = it.getString("orderId").toString()
                     if (!orderId.equals("")) {
@@ -69,6 +65,7 @@ class DriverActivity :
             }
             R.id.navigation_profile -> {
                 //TODO deal with profile page
+                switchFragment(ProfileFragment())
                 return@OnNavigationItemSelectedListener true
             }
 
@@ -96,7 +93,7 @@ class DriverActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initiallizeListeners()
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        driver_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         userRef.document(auth.currentUser!!.uid).get().addOnSuccessListener {
             var orderId = it.getString("orderId").toString()
             if (!orderId.equals("")) {
@@ -105,6 +102,16 @@ class DriverActivity :
                 switchFragment(DriverLandingFragment.newInstance())
             }
         }
+    }
+
+    override fun onLogoutBtnPressed() {
+        auth.signOut()
+        intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        Toast.makeText(
+            this, "Signed out",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun OnOrderSelected(Id: String, uid: String) {
@@ -120,7 +127,7 @@ class DriverActivity :
         ft.replace(R.id.fragement_container, fragment)
         ft.addToBackStack("DriverOrderSummary")
         ft.commit()
-        navigation.menu.findItem(R.id.navigation_home).isChecked = true
+        driver_navigation.menu.findItem(R.id.navigation_order_details).isChecked = true
     }
 
 

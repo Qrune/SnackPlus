@@ -1,99 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
                                              android:layout_height="match_parent"
+                                             android:background="@color/background"
 >
 
-    <android.support.constraint.Guideline
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" app:layout_constraintGuide_begin="149dp" android:id="@+id/guideline"
-            app:layout_constraintGuide_percent="0.22"/>
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline" android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/background" android:id="@+id/constraintLayout"
-            app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="1.0">
 
-        <android.support.constraint.Guideline
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guideline3" app:layout_constraintGuide_percent="0.35"/>
-        <TextView
-                android:text="Winston"
-                android:textColor="@color/colorWhite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_driver_order_name"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent" android:textSize="24sp"
-                app:layout_constraintVertical_bias="0.13"/>
-        <TextView
-                android:text="8122395326"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                android:id="@+id/textView_driver_order_number" app:layout_constraintStart_toStartOf="@+id/guideline3"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView_driver_order_name"
-                android:textSize="20sp"/>
-        <TextView
-                android:text="337 Heritage Lane E"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView_driver_order_address" app:layout_constraintStart_toStartOf="@+id/guideline3"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView_driver_order_number"
-                android:textSize="18sp"
-                android:textColor="@android:color/white"/>
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" tools:srcCompat="@tools:sample/avatars"
-                android:id="@+id/imageView" android:layout_marginTop="8dp"
-                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                android:layout_marginEnd="8dp" android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-    </android.support.constraint.ConstraintLayout>
-    <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/constraintLayout"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--android:layout_marginBottom="200dp"-->
-            <!--android:id="@+id/driver_order_summary_recyclerView"-->
-            <!--tools:listitem="@layout/driver_order_summary_item"/>-->
+    <TextView
+            android:text="Winston"
+            android:textColor="@color/icon_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_driver_order_name"
+            android:textSize="24sp"
+            android:textAlignment="textEnd" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="44dp"
+            android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/driver_map_view"/>
+    <TextView
+            android:text="8122395326"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/icon_color"
+            android:id="@+id/textView_driver_order_number"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView_driver_order_name"
+            android:textSize="20sp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="44dp"/>
+    <TextView
+            android:text="337 Heritage Lane E"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_driver_order_address"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView_driver_order_number"
+            android:textSize="18sp"
+            android:textColor="@color/icon_color"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="44dp" android:textAlignment="textEnd"/>
+
     <Button
-            android:text="Delivered"
+            android:background="@drawable/ic_delivered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btn_order_delivered"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.183" android:layout_marginTop="336dp"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView_driver_order_address"/>
     <android.support.design.widget.FloatingActionButton
             android:layout_width="103dp"
             android:layout_height="wrap_content"
             android:clickable="true" app:srcCompat="@drawable/fui_ic_phone_white_24dp"
             android:id="@+id/fab_call_customer" app:backgroundTint="@color/fui_linkColor"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.799"
-            android:layout_marginTop="336dp" app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
+            android:layout_marginEnd="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView_driver_order_address"/>
+    <com.google.android.gms.maps.MapView
+            android:layout_width="0dp"
+            android:layout_height="304dp"
+            android:id="@+id/driver_map_view" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" app:layout_constraintHorizontal_bias="0.0"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" app:srcCompat="@drawable/order_status"
+            android:id="@+id/imageView" android:layout_marginTop="40dp"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+    />
 
 </android.support.constraint.ConstraintLayout>

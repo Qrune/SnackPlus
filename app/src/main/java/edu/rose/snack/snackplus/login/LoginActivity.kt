@@ -18,9 +18,12 @@ import edu.rose.snack.snackplus.R
 import edu.rose.snack.snackplus.customer.CustomerActivity
 import edu.rose.snack.snackplus.model.User
 import edu.rosehulman.rosefire.Rosefire
+import com.google.android.gms.common.api.Status
 
 class LoginActivity : AppCompatActivity(),
-    LoginFragment.OnLoginButtonPressedListener {
+    LoginFragment.OnLoginButtonPressedListener
+     {
+
     var isDriver: Boolean = false
     private val RC_SIGN_IN = 1
     private val RC_ROSEFIRE_LOGIN = 2
@@ -57,9 +60,11 @@ class LoginActivity : AppCompatActivity(),
 
     fun generateDummyItems() {
         var itemsRef = FirebaseFirestore.getInstance().collection("items")
-        var items = listOf<Item>(Item("banana", 3, 1f),
+        var items = listOf<Item>(
+            Item("banana", 3, 1f),
             Item("apple", 2, .3f),
-            Item("beef", 5, 2f))
+            Item("beef", 5, 2f)
+        )
         for (item in items) {
             itemsRef.add(item)
         }
@@ -79,6 +84,7 @@ class LoginActivity : AppCompatActivity(),
         )
         val loginIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
+            .setLogo(R.drawable.main_logo)
             .setAvailableProviders(provider)
             .build()
         startActivityForResult(loginIntent, RC_SIGN_IN)
@@ -137,23 +143,19 @@ class LoginActivity : AppCompatActivity(),
         userRef.document(uid).get().addOnSuccessListener {
             Log.d("CREATE", "USER CREATING")
             if (!it.exists()) {
-                Log.d("CREATE", "USER ISNULL")
-                userRef.document(uid).set(User()).addOnSuccessListener {
-                    if (this.isDriver) {
-                        intent = Intent(this, DriverActivity::class.java)
-                        startActivity(intent)
-                    } else {
-                        intent = Intent(this,CustomerActivity::class.java)
-                        startActivity(intent)
-                    }
-                }
+                switchFragment(SignUpFragment())
+
             } else {
                 Log.d("CREATE", it.toString())
-                if (this.isDriver) {
+                var user:User = it.toObject(User::class.java)!!
+                Log.d("LOGIN",user.role)
+                if (user.role.equals("driver")) {
+                    Log.d("LOGIN", "DRIVER")
                     intent = Intent(this, DriverActivity::class.java)
                     startActivity(intent)
                 } else {
-                    intent = Intent(this,CustomerActivity::class.java)
+                    Log.d("LOGIN", "CUSTOMER")
+                    intent = Intent(this, CustomerActivity::class.java)
                     startActivity(intent)
                 }
             }

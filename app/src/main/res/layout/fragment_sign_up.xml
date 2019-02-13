@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".login.SignUpFragment"
+             android:background="@color/background">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+            android:text="Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView14" android:textSize="20sp"
+            android:textColor="@android:color/white" android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="41dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="316dp"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/edit_signup_phone"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView13" android:textSize="20sp"
+            android:textColor="@android:color/white" android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="41dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="316dp"
+            app:layout_constraintHorizontal_bias="0.0" android:text="Tel:"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/edit_signup_address"/>
+    <TextView
+            android:text="Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView12" android:textSize="20sp"
+            android:textColor="@android:color/white" android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="41dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="316dp"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/edit_signup_name"/>
+    <ImageView
+            android:src="@drawable/ic_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/imageView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="100dp"/>
+    <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView11" android:textSize="20sp"
+            android:textColor="@android:color/white" android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="42dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="317dp" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/imageView2"/>
+    <EditText
+            android:layout_width="332dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/edit_signup_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.481"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textView11"
+            android:textColor="@android:color/white"/>
+    <EditText
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:ems="10"
+            android:id="@+id/edit_signup_phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@android:color/white" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView13"/>
+
+
+    <EditText
+            android:layout_width="338dp"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/edit_signup_email" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" android:textColor="@android:color/white"/>
+    <Button
+            android:background="@drawable/ic_nextbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_signup_next" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/edit_signup_email"/>
+    <EditText
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_signup_address"
+            app:layout_constraintTop_toBottomOf="@+id/textView12"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp" app:layout_constraintEnd_toEndOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -10,13 +10,14 @@
         app:cardPreventCornerOverlap="false"
         android:layout_marginBottom="7dp"
         android:padding="4dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+android:background="@android:color/transparent">
     <android.support.constraint.ConstraintLayout android:layout_width="match_parent"
                                                  android:layout_height="wrap_content"
                                                  android:layout_marginHorizontal="20dp"
     >
         <ImageView
-                android:id="@+id/customer_checkout_recycler_view_item_image"
+                android:id="@+id/customer_order_details_recycler_view_item_image"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
@@ -26,8 +27,8 @@
                 android:layout_marginBottom="8dp" card_view:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="8dp" card_view:layout_constraintEnd_toStartOf="@+id/guideline5"/>
         <TextView
-                android:id="@+id/customer_checkout_recycler_view_item_name"
-                android:layout_toRightOf="@+id/customer_checkout_recycler_view_item_image"
+                android:id="@+id/customer_order_details_recycler_view_item_name"
+                android:layout_toRightOf="@+id/customer_order_details_recycler_view_item_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,14 +39,14 @@
                 android:layout_marginStart="8dp" card_view:layout_constraintStart_toStartOf="@+id/guideline5"
                 android:layout_marginTop="8dp" card_view:layout_constraintTop_toTopOf="parent"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_toRightOf="@id/customer_checkout_recycler_view_item_image"
-                  android:layout_below="@+id/customer_checkout_recycler_view_item_name"
+                  android:layout_toRightOf="@id/customer_order_details_recycler_view_item_image"
+                  android:layout_below="@+id/customer_order_details_recycler_view_item_name"
                   android:textSize="20sp"
                   android:gravity="center"
                   android:text="@string/x2" android:id="@+id/customer_chekcout_recycler_view_item_quantity"
                   card_view:layout_constraintStart_toStartOf="@+id/guideline5"
                   android:layout_marginStart="8dp" android:layout_marginTop="8dp"
-                  card_view:layout_constraintTop_toBottomOf="@+id/customer_checkout_recycler_view_item_name"
+                  card_view:layout_constraintTop_toBottomOf="@+id/customer_order_details_recycler_view_item_name"
                   card_view:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_alignParentRight="true"

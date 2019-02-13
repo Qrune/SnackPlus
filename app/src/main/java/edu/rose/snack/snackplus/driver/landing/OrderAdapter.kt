@@ -40,6 +40,7 @@ class OrderAdapter(
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         for (documentChange in querySnapshot.documentChanges) {
             val order = Order.fromSnapshot(documentChange.document)
+            Log.d("ORDER","PROCESS ORDER")
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
                     orders.add(0, order)

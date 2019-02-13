@@ -12,6 +12,7 @@ data class Order(
     var customerPhone: String = "",
     var items: MutableList<Item> = mutableListOf(),
     var orderTotal: Float = 0F,
+    var customerId:String="",
     var driverId: String = "",
     var status: String="IN PROGRESS"
 ) {
