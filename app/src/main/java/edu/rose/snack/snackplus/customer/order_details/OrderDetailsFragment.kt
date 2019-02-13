@@ -41,10 +41,11 @@ class OrderDetailsFragment : Fragment() {
         val recyclerView = view.recycler_view_order_details_list
         if (recyclerView is RecyclerView) {
             if (auth.uid != null) {
-                usersRef.document(auth.uid!!).get().addOnSuccessListener {
-                    if (it != null) {
-                        var orderId = it.get("orderId") as String
+                usersRef.document(auth.uid!!).get().addOnSuccessListener {userDocument->
+                    if (userDocument != null) {
+                        var orderId = userDocument.get("orderId") as String
                         Log.d("OrderDetails","orderId is $orderId")
+                        Log.d("OrderDetails","i am ${auth.uid}")
                         ordersRef.document(orderId).get().addOnSuccessListener {orderDocument->
 
                                 val order = Order.fromSnapshot(orderDocument)

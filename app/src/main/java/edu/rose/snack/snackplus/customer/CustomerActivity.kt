@@ -17,6 +17,7 @@ import edu.rose.snack.snackplus.customer.checkout.CheckoutFragment
 import edu.rose.snack.snackplus.customer.item_select.ItemSelectListFragment
 import edu.rose.snack.snackplus.customer.order_details.OrderDetailsFragment
 import edu.rose.snack.snackplus.login.LoginActivity
+import edu.rose.snack.snackplus.model.User
 import kotlinx.android.synthetic.main.activity_customer.*
 
 class CustomerActivity : AppCompatActivity(),
@@ -29,10 +30,11 @@ class CustomerActivity : AppCompatActivity(),
         customer_navigation.menu.getItem(0).isEnabled = state
     }
     override fun onViewOrderDetails() {
-        switchFragment(OrderDetailsFragment())
+
         Toast.makeText(this,"Order placed",Toast.LENGTH_LONG).show()
         changeViewOrderDetailsState(true)
         customer_navigation.menu.getItem(0).isChecked=true
+        switchFragment(OrderDetailsFragment())
     }
 
     val auth = FirebaseAuth.getInstance()
@@ -70,6 +72,7 @@ class CustomerActivity : AppCompatActivity(),
         setContentView(R.layout.activity_customer)
         switchFragment(ItemSelectListFragment())
 
+//        usersRef.add(User(address = "5500 Wabash Avenue",email="happy@happy.com",name = "Jerry",phone = "322232322323",role="customer"))
 //        val bottomNavigationView=findViewById<BottomNavigationView>(R.id.customer_navigation)
 
         customer_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)

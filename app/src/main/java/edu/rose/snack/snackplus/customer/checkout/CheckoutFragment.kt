@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ class CheckoutFragment : Fragment(), CheckoutListAdapter.OnOrderPlacedListener {
         // update use.orderId field
 //        Toast.makeText(context,"orderPlaced: $orderId",Toast.LENGTH_LONG)
 //        textTotal.text=orderId
+        Log.d("checkout","orderid=$orderId")
+        listener!!.onViewOrderDetails()
     }
 
     private  var listener:OnViewOrderDetails?=null
@@ -80,7 +83,7 @@ class CheckoutFragment : Fragment(), CheckoutListAdapter.OnOrderPlacedListener {
         madapter.attachOnOrderPlacedListener(this)
         buttonCheckout.setOnClickListener {
             madapter.placeOrder(textAddress!!.text.toString())
-            listener!!.onViewOrderDetails()
+
         }
         recyclerView = view.recycler_view_checkout_item_list
         recyclerView.apply {

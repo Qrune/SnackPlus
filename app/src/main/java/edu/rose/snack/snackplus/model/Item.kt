@@ -6,7 +6,7 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.ServerTimestamp
 
 
-data class Item(var name: String="", var quantity: Int=0, var price: Float=0F) {
+data class Item(var name: String="", var quantity: Int=0, var price: Float=0F, var imageUri:String="") {
     @get:Exclude
     var id = ""
     @ServerTimestamp

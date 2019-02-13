@@ -16,7 +16,7 @@ android:background="@android:color/transparent">
                     android:layout_marginHorizontal="20dp"
                                                  android:id="@+id/customer_checkout_recycler_view_cardView">
         <ImageView
-                android:id="@+id/img_item_select_item_photo"
+                android:id="@+id/img_item_select_item_image"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_margin="5dp"
@@ -37,7 +37,7 @@ android:background="@android:color/transparent">
                 android:padding="5dp"
                 android:textStyle="bold"
                 tools:text="@string/item_name" android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/img_item_select_item_photo"
+                android:layout_toEndOf="@+id/img_item_select_item_image"
                 card_view:layout_constraintTop_toTopOf="parent" android:layout_marginTop="8dp"
                 android:layout_marginStart="24dp" card_view:layout_constraintStart_toStartOf="@+id/guideline4"/>
         <TextView
