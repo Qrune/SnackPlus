@@ -151,7 +151,7 @@ class CheckoutListAdapter(
     fun placeOrder(address: String) {
         userRef.document(auth.uid!!).get().addOnSuccessListener {userDocument->
             var user = userDocument.toObject(User::class.java)
-            val order = Order(user!!.name, address, user.phone, items, total, FirebaseAuth.getInstance().uid!!)
+            val order = Order(user!!.name, address, user.phone, items, total, customerId = FirebaseAuth.getInstance().uid!!)
             ordersRef.add(order).addOnSuccessListener {orderDocument->
 
                 userRef.document(auth.uid!!).update("orderId",orderDocument.id).addOnSuccessListener {

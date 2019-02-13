@@ -5,11 +5,14 @@
                                              android:id="@+id/driver_landing_with_order"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             tools:context=".driver.landing.DriverLandingWithOrderFragment">
+                                             tools:context=".driver.landing.DriverLandingWithOrderFragment"
+android:background="@color/background">
 
     <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:padding="8dp"
+            android:layout_margin="4dp"
 
             android:id="@+id/driver_order_summary_recyclerView"
             tools:listitem="@layout/driver_order_summary_item" app:layout_constraintTop_toTopOf="parent"

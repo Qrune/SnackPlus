@@ -3,9 +3,6 @@ package edu.rose.snack.snackplus.driver.order.home
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +10,6 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -73,17 +69,18 @@ class DriverOrderSummary : Fragment() {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync{
             val sydney = LatLng(-34.0, 151.0)
-            it.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+            it.addMarker(MarkerOptions().position(sydney).title("Store Address"))
             it.moveCamera(CameraUpdateFactory.newLatLng(sydney))
             it.setMaxZoomPreference(19.0f)
             it.setMinZoomPreference(15.0F)
         }
+
         orderRef.document(orderId!!).get().addOnSuccessListener {snapshot ->
             customerName.text = snapshot["customerName"] as String
             customerNumber.text = snapshot["customerPhone"] as String
             customerAdddress.text = snapshot["customerAddress"] as String
         }
-        var btn_delivered = constraintView.findViewById<Button>(R.id.btn_order_delivered)
+        var btn_delivered = constraintView.findViewById<Button>(R.id.btn_driver_order_delivered)
         btn_delivered.setOnClickListener {
             val users = HashMap<String, String>()
             users.put("status","DELIVERED")
